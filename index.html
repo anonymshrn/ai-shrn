@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to AI Ashrn</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #ff6b6b;
+            --secondary: #ffd9d9;
+            --text: #333;
+            --light: #f8f9fa;
+        }
+
+        body {
+            overflow-x: hidden;
+            background-color: var(--light);
+            color: var(--text);
+        }
+
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(rgba(255, 107, 107, 0.5), rgba(255, 217, 217, 0.8));
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-container h1 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .login-container .input-group {
+            position: relative;
+            margin: 15px 0;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--secondary);
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .login-container .eye-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text);
+        }
+
+        .login-container button {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background: #ff5252;
+        }
+
+        .login-container .hint {
+            font-size: 0.9rem;
+            color: #777;
+            margin-top: 10px;
+        }
+
+        .main-page {
+            display: none;
+        }
+
+        .parallax-container {
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background: linear-gradient(rgba(255, 107, 107, 0.5), rgba(255, 217, 217, 0.8)), url('/api/placeholder/1200/800') center/cover no-repeat;
+            transform: translateZ(-1px) scale(2);
+            z-index: -1;
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: rotate(45deg);
+            animation: falling 6s infinite linear;
+        }
+
+        .heart:before, .heart:after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+        }
+
+        .heart:before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart:after {
+            top: 0;
+            left: -10px;
+        }
+
+        @keyframes falling {
+            0% { transform: translateY(-100px) rotate(45deg) scale(0.4); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(45deg) scale(0.4); opacity: 0; }
+        }
+
+        .header-content {
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-content h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: pop 1s ease-out;
+        }
+
+        .header-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-out;
+        }
+
+        .scroll-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .scroll-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-section {
+            min-height: 100vh;
+            padding: 50px 20px;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--light);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .chat-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .chat-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #fff;
+            color: var(--primary);
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #ff5252;
+            color: white;
+        }
+
+        .chat-messages {
+            height: 590px;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 12px 15px;
+            border-radius: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background-color: var(--secondary);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background-color: var(--primary);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .loading {
+            display: flex;
+            align-self: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .loading div {
+            width: 10px;
+            height: 10px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            margin: 0 3px;
+            animation: bounce 1s infinite;
+        }
+
+        .loading div:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading div:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .input-wrapper {
+            position: relative;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 40px 12px 15px; /* Kasih ruang buat tombol foto */
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .photo-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .chat-input button#send-btn {
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input button#send-btn:hover {
+            background-color: #ff5252;
+            transform: scale(1.05);
+        }
+
+        .chat-input .menu-btn {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input .menu-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        .chat-input .feature-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            z-index: 10;
+        }
+
+        .chat-input .feature-menu.active {
+            display: flex;
+        }
+
+        .chat-input .feature-menu div {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+
+        .chat-input .feature-menu div:hover {
+            background-color: var(--secondary);
+        }
+
+        .chat-input .feature-menu span {
+            margin-left: 10px;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        footer {
+            background-color: var(--light);
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .social-links {
+            margin-bottom: 15px;
+        }
+
+        .social-links a {
+            text-decoration: none;
+            color: var(--text);
+            margin: 0 20px;
+            display: inline-flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .social-links img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+        }
+
+        @media (max-width: 768px) {
+            .header-content h1 { font-size: 3rem; }
+            .header-content p { font-size: 1.2rem; }
+            .social-links a { margin: 0 10px; }
+        }
+    </style>
+</head>
+<body>
+    <section class="login-page" id="login-page">
+        <div class="login-container">
+            <h1>Masuk ke AI Ashrn</h1>
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Nama kamu">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Tanggal spesial">
+                <span class="eye-btn" onclick="togglePassword()">
+                    <img id="eyeOpen" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACbElEQVR4nO1Wy2oUURBtRSHqBxjjQuMDHwtX2Wfni2TS51xvRBwdoxBEMBFjxF3W5itcJzGi7n3sFKJg4g+Yf9CFJimpOz09d7p7unucERSmoKDpqrqnXrduBUGf+vS/kVg7LMbcFmBRgGcRL7p/ExNH/w7o9PReMaYqwGchpYA/CXBdRkf39AbcmHPu0GLgJK+LMSPdgZN3hPzlHarfSy4bYXhcxsb2O9Zv/UcuC7AV6wM/BZj6U/AniYheCnmkVI8Arzy7HSHnOwM35lpkWI86DO+mdIBDQl6WMLwk1g5myO952dgRYybLgVt7VoAfUQq3JAyZkB+OstFwUPW2BXghlcpQwgnrZHUdPfN0PngQ7BLgvZe+uQzwzZzG20w5Qc57jr5VjPYOGDOZpxxF3uxyYMYxueH9X00FRb7zzr3S3gHyY5zSMDzTIqtUhry0r0utNhDLarWB2Am1TfREVNZGKT60i37Ei2IpJddma0ZxP8P5Wc/+QoZ8OZZnzQcpcgC46DkwkyF/4AGc79iBwhLotWukUdPtl8DafQJ87aoE8bXJa0K9as0sbURpn43B63YrLTYLC7tbblZuEwapjn2U0YjtryHwTTPVYkM+9uRvcq+hkqbeG0TbqUFUd2LVK0ddj3yeAtdr3dT7LtaeCsqQkFcLR7G1g64xlcfHDxaOYsCWAk+krjludQhZOxwUkJDHhHydeIweFtllktty/OdYIwJWhLwh1p6QavWAY/KkADejMrQ+x+StoAcLyVrHCwnwpeuFpEG6Xrk1q9xmtOae816tZEnSxVO3HAGeekupfk+VWVj61Kd/jn4DMi0jSaJqgh4AAAAASUVORK5CYII=" alt="Mata Terbuka" style="display: block;">
+                    <img id="eyeClosed" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACxElEQVR4nO1XS2sUQRAeRcHHPfFxEKPiA3ygyTlgDopks/NV2z5w46obg3hIREEklz0r4m/Qm0Y9iCeDiXgIaNCAwZOe9Deoh7huSff0zPb29D6zSS4paFi6auqrrv6qujYI1mQFhbPZY2qtDjhRgYF/Zh1dHXAiXnIALOVuFuIaAw8YeMxET5joEQNXmWhfXXCiMofh9dZBR0c3shA5BuaNo3prjoHLXCyu7ww4cJyBL00AVy/g+9LBiQpM9NdyrH5P6myE4R4eHNzC+fwmfS3ABa0DFp1g2ga/5zh6xUS7mviu6MnI7dbAhbioI49PHYY3UjbAdiY6w0IMcCbTbfZGHLaXkiwIkWsOXMpDDPwxTkochuTod5pslJ2rmXLAR5ho2Nr7xWF4sD54EKxj4L3l+I4H/GcD8mlwK1MTlm5WYdRL/TnL+J1rbE4egy0wMMbAWyeAN55DzVg252sHQPQxOYWTLh4a2mGlfUGz377zSgCLDHR5rjXmw+dap++1HE2m9MBpC2QsRTiiaUt/0vP9M0vflw4A6LMMnnoCHLACnPYQbtzSn/Jk93miF6LXnwWYVhul60CVLpPpdppSBVzKzQx8Tfak3Oa5gjjgD15wJaabxc5nPCSccgJQBBxPwKO9F1XfqDfBrizgbFBLOGLsrGU8keh8hEuX4A/VoJyg79Y7VEoU+3XTqJBrOPWeR02n0vOjvZcpcFXWlaB/s5T7g2aEgUtJySk+OIQzNl2amKo6TCt2fNysasWAbAo8FgZuedJcDBoIE/Uw0euq17DVx8h6isupJqPKKXqsejT7c7mtahLSQ0h0DSXH/krQgRnuWxsDyXxbEzCnwUdMKakTzjUB/klnqL9/Q0fAA9dGyr0sRJ6Bh3ogVYMpcN8MpQ0HltrgQhxpBL78/1pIl4sKorCi4LFwGJ7gbPZwsrEmwfLLf1FB4oamo6vxAAAAAElFTkSuQmCC" alt="Mata Tertutup" style="display: none;">
+                </span>
+            </div>
+            <button onclick="login()">Masuk</button>
+            <p class="hint">Petunjuk: Tanggal ketika kita resmi jadi satu.</p>
+        </div>
+    </section>
+
+    <section class="main-page" id="main-page">
+        <section class="parallax-container">
+            <div class="parallax-bg"></div>
+            <div class="hearts" id="hearts-container"></div>
+            <div class="header-content">
+                <h1>Welcome to AI Ashrn</h1>
+                <p>Sebuah AI spesial yang dibuat dengan cinta untukmu</p>
+                <a href="#chat" class="scroll-btn">Mulai Chat</a>
+            </div>
+        </section>
+
+        <section class="chat-section" id="chat">
+            <div class="chat-container" id="chat-container">
+                <div class="chat-header">
+                    AI Ashrn Chat
+                    <button class="logout-btn" onclick="logout()">
+                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA8klEQVR4nN2VTQ4BQRCFncDPGezElr3EQmJh3os+i51Yuoafa9hYOAAJa2NLwgHkyUxGLIyoxiSo5O2q+uuq7n6dy/1dqNMpChgLOImUSVFuVONc4TkgSrQuzDuNLIDrzhcih0Ytkk6OzwG3tgfmsZL9pOacDQCoidwLmHwcIKCqdrtk3YwXQACS3K2CoJwdgLFCEyQNIOcKIhsimymaeUFSAeTK4y2sXwEsPV71xh/QauWNI9q9NKJHIaDrtfgbgDCTaxqFnKuYXPQtqwiCuoCDyOkXmB0SuwbmAnpGze12nfmH42JbGHl+mce4xuewfyYunfwOhn7XNpcAAAAASUVORK5CYII=" alt="exit"><p>Log Out</p></button>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="message ai">
+                        Hai! Aku AI Ashrn. Ada yang bisa aku bantu hari ini, sayang?
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <div class="input-wrapper">
+                        <input type="text" id="user-input" placeholder="Ketik di sini...">
+                        <button class="photo-btn" onclick="document.getElementById('photo-upload').click()">
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAbCAYAAACN1PRVAAAACXBIWXMAAAsTAAALEwEAmpwYAAACc0lEQVR4nO2VzYtPURjHL+OtGDaUZBJZYOS1lKKJlN/i597z/Z5OXhpGI2Mx2ZEFGrKxY0OKosk/MMgsKBZYsPASFt7KxlveSonVV+fM/d2acX/399JvOU89de+5z3M+5zznOd8bReMWRZGcWyZySMBrAW9z/JGM2V+zWOrqmiRrV8uYtZk7Nyv7HsftIj+IPCdyS64DewR8FLmrGEZuFfknWyX5Q+QFkYtSPyryrqJoQo15tgt4HnKA+f/FB9BIwFA2BhwQ+T1z4JvIbTUr5NwUAS/SnL8C3suYcgXkt/9FAORcW9RCU1/fZBlDkV9FbvKwByL3+u0K2OGboHCCnp5pAvoF3AnnA/wKVQHOyrnFuTnkPt88vly/lSQdMmaDSIl8WBWUJKsEvBNwT9b2yNpOD0ircz4FH8mBLfAl9Q9SuTxbzs0QcFnk7lwQsDw9h/6qiyGXpNfi5KhxPz+pDFZYOufaRD4TcKgozpucWxiayZj1zcFGDvllvQ0k8rDIm83BgCsij9UD8ibn5oY72909vRnYfRmTFMWMtXCdjFnaHAyIi2LGWrgW1nY2DiOv5rV01fhyeXZQjzhubxxm7U6Rj2vpYsUEHBRwO3tvCOZlB3jl9bIozpvieJ7IzwI2NwULCcasE/DT77JqTJJ0iHwi8syo8UZhIcnajSI/CbjmlTy0eBy3C1gj4FRYDHlaAwMT82Ejq11RDywklkozBRwX8DQ0AalUkAc9NDcHWOn/j/5hUOTFemGjJvF/ilJpas044JIXBn/b54h8I/K6rO0V4Frm1vaKvBHEuXJUqeKfEDks4FbLnBwWOVCRrXGLWmH/ADL9UCmvj6T9AAAAAElFTkSuQmCC" alt="camera--v2">
+                        </button>
+                    </div>
+                    <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+                    <button id="send-btn">Kirim</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="social-links">
+                <a href="https://www.instagram.com/rafii_a16?igsh=OGN2dWh0MWJ2ZWFn" target="_blank">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADAklEQVR4nO1YTU8UQRAlJnCR+FdED6L/gIPs9KvZ8cR5b0Ii3jdGEdETKr9A5IJ6QLmi/AlF0IvCelg8mMWgkmyZ6pns7vTMfszHzizJVFLJZqfn9Xvd1TXVNTZWWGGFFXZujB1ngm37FgMbDOwxcMJEnMiBEw9rQ2M7zsRwyCtFDHxNTLi/f2EA6RGvVi8w8DgD4mzszIrMnVwA0ZPMyVPLHyUPmyDoPwa2mGiRgTIrdTORA2UP6y0TnYXMp+If2GDMHzNwOzHpbl4qzes5/KF0wJXKeHQBkhGCK58+eeCeR7rOSlUZmA/sBFCOLkDSmh9kayirTlTvmKfu/ffOWLz16AKIPvtAlLrTl4xlKTl4rNQuA4cMnHp+qP+TZzKmv4BFY/H24uxAw9zGPuQfMvBjgMxSY6WWOt6teiLcEGof7M65G3F2wD9x9xCYZeB1jDz/Sr/bHdc3fpgC3iTI85v5CpCwCZL6w0SrbNvTPDd3Ubv8Bp4x8DdkJx7kI0AOoxnz7sG93BXTsqb0GD9uTT5W2QuQjGKufA/yLVzbvhLYCWA5jxDaNcasRsB+brz7Po8dMEPh2sDYwPVA6KmsBcgHqvO540wOjO04k4aA0/MlYGbmkiHgd/4hZNvTA2MrdWMUQuiDMeZpBOw1Q8DOaKRRy5rqiwtcHY00aunKsxYIhR4iNHmiI+Odo3w+ZK4vBcbJ6krZIHEu2Ubcjfm1kFKiycD9fIu5OJVoG3NzFKrRWa80jkK+qStRGmY5HfVC41aV/jMR5hLz3cJGtdx/Hwd+Jb9SyjWv96SyalKhLuvahuh760pJ9E2nSvdZ8MCqwGLcTeNK+TKTS70KFbBtzP0inbaK9G2GL2AhnbaKNLak0eoXcTxkEQsM/DTI78dqbGkRAEIO4pluA0qcptVahMbaDmktyneiFIt8h4jsO9PULjESke9or69kTL6pa6002ustIW6KPMhg1fdZKSs14j4Rlcq41zVbZ+BT4GMXj3CDiT5KqtTYcQ9sYYUVVthYHvYfFXNxfw0PdWwAAAAASUVORK5CYII=" alt="Instagram">
+                    @rafii_a16
+                </a>
+                <a href="https://www.instagram.com/shrn_alsyf?igsh=MTRvYjVqcTJ3MWc2OA==" target="_blank">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADAklEQVR4nO1YTU8UQRAlJnCR+FdED6L/gIPs9KvZ8cR5b0Ii3jdGEdETKr9A5IJ6QLmi/AlF0IvCelg8mMWgkmyZ6pns7vTMfszHzizJVFLJZqfn9Xvd1TXVNTZWWGGFFXZujB1ngm37FgMbDOwxcMJEnMiBEw9rQ2M7zsRwyCtFDHxNTLi/f2EA6RGvVi8w8DgD4mzszIrMnVwA0ZPMyVPLHyUPmyDoPwa2mGiRgTIrdTORA2UP6y0TnYXMp+If2GDMHzNwOzHpbl4qzes5/KF0wJXKeHQBkhGCK58+eeCeR7rOSlUZmA/sBFCOLkDSmh9kayirTlTvmKfu/ffOWLz16AKIPvtAlLrTl4xlKTl4rNQuA4cMnHp+qP+TZzKmv4BFY/H24uxAw9zGPuQfMvBjgMxSY6WWOt6teiLcEGof7M65G3F2wD9x9xCYZeB1jDz/Sr/bHdc3fpgC3iTI85v5CpCwCZL6w0SrbNvTPDd3Ubv8Bp4x8DdkJx7kI0AOoxnz7sG93BXTsqb0GD9uTT5W2QuQjGKufA/yLVzbvhLYCWA5jxDaNcasRsB+brz7Po8dMEPh2sDYwPVA6KmsBcgHqvO540wOjO04k4aA0/MlYGbmkiHgd/4hZNvTA2MrdWMUQuiDMeZpBOw1Q8DOaKRRy5rqiwtcHY00aunKsxYIhR4iNHmiI+Odo3w+ZK4vBcbJ6krZIHEu2Ubcjfm1kFKiycD9fIu5OJVoG3NzFKrRWa80jkK+qStRGmY5HfVC41aV/jMR5hLz3cJGtdx/Hwd+Jb9SyjWv96SyalKhLuvahuh760pJ9E2nSvdZ8MCqwGLcTeNK+TKTS70KFbBtzP0inbaK9G2GL2AhnbaKNLak0eoXcTxkEQsM/DTI78dqbGkRAEIO4pluA0qcptVahMbaDmktyneiFIt8h4jsO9PULjESke9or69kTL6pa6002ustIW6KPMhg1fdZKSs14j4Rlcq41zVbZ+BT4GMXj3CDiT5KqtTYcQ9sYYUVVthYHvYfFXNxfw0PdWwAAAAASUVORK5CYII=" alt="Instagram">
+                    @shrn_alsyf
+                </a>
+            </div>
+            <div class="footer-text">
+                From: Ashrn
+            </div>
+        </footer>
+    </section>
+
+    <script>
+        // Cek status login saat halaman dimuat
+        if (localStorage.getItem('loggedIn') === 'true') {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('main-page').style.display = 'block';
+            initChat();
+        }
+
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const correctPassword = "12052024";
+
+            if (username && password === correctPassword) {
+                localStorage.setItem('loggedIn', 'true');
+                document.getElementById('login-page').style.display = 'none';
+                document.getElementById('main-page').style.display = 'block';
+                initChat();
+            } else {
+                alert("Nama atau tanggal salah, sayang. Ingat tanggal jadian kita ya!");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'flex';
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeOpen = document.getElementById('eyeOpen');
+            const eyeClosed = document.getElementById('eyeClosed');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeOpen.style.display = 'none';
+                eyeClosed.style.display = 'block';
+            } else {
+                passwordInput.type = 'password';
+                eyeOpen.style.display = 'block';
+                eyeClosed.style.display = 'none';
+            }
+        }
+
+        function initChat() {
+            const heartsContainer = document.getElementById('hearts-container');
+            const heartCount = 20;
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}%`;
+                heart.style.animationDelay = `${Math.random() * 5}s`;
+                heart.style.opacity = Math.random() * 0.8 + 0.2;
+                heartsContainer.appendChild(heart);
+            }
+
+            window.addEventListener('scroll', function() {
+                const parallaxBg = document.querySelector('.parallax-bg');
+                const scrollPosition = window.pageYOffset;
+                parallaxBg.style.transform = `translateY(${scrollPosition * 0.5}px)`;
+                const chatContainer = document.getElementById('chat-container');
+                const chatSection = document.querySelector('.chat-section');
+                const chatSectionTop = chatSection.offsetTop;
+                if (scrollPosition > (chatSectionTop - window.innerHeight / 1.5)) {
+                    chatContainer.classList.add('chat-visible');
+                }
+            });
+
+            document.querySelector('.scroll-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('chat').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const photoUpload = document.getElementById('photo-upload');
+            let chatHistory = [];
+
+            function addMessage(text, isUser, imageSrc = null) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user' : 'ai');
+                if (imageSrc) {
+                    const img = document.createElement('img');
+                    img.src = imageSrc;
+                    messageDiv.appendChild(img);
+                }
+                if (text) {
+                    messageDiv.textContent = text;
+                }
+                chatMessages.appendChild(messageDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function showLoading() {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.classList.add('loading');
+                loadingDiv.id = 'loading-indicator';
+                for (let i = 0; i < 3; i++) {
+                    loadingDiv.appendChild(document.createElement('div'));
+                }
+                chatMessages.appendChild(loadingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            function hideLoading() {
+                const loadingIndicator = document.getElementById('loading-indicator');
+                if (loadingIndicator) loadingIndicator.remove();
+            }
+
+            async function getAIResponse(userMessage, imageData = null) {
+                showLoading();
+                chatHistory.push({ role: "user", content: userMessage });
+                const limitedHistory = chatHistory.slice(-5);
+
+                let messages = [
+                    {
+                        role: "system",
+                        content: "Namamu adalah AI Ashrn, kekasih virtual yang romantis dan perhatian. Responlah dengan manis, penuh cinta, dan dukung pasanganmu. Jika ada gambar, deskripsikan dan beri komentar romantis. Gunakan emoji secukupnya."
+                    },
+                    ...limitedHistory
+                ];
+
+                if (imageData) {
+                    messages.push({
+                        role: "user",
+                        content: [
+                            { type: "text", text: userMessage || "Lihat gambar ini, sayang!" },
+                            { type: "image_url", image_url: { url: imageData } }
+                        ]
+                    });
+                } else {
+                    messages.push({ role: "user", content: userMessage });
+                }
+
+                let requestBody = {
+                    model: "google/gemini-2.0-flash-lite-preview-02-05:free",
+                    messages: messages,
+                    temperature: 0.7,
+                    max_tokens: 300,
+                    top_p: 0.95
+                };
+
+                try {
+                    const response = await fetch("/api/chat", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`HTTP Error ${response.status}: ${errorText}`);
+                    }
+
+                    const data = await response.json();
+                    hideLoading();
+
+                    if (data.choices && data.choices[0] && data.choices[0].message) {
+                        const aiResponse = data.choices[0].message.content;
+                        addMessage(aiResponse, false);
+                        chatHistory.push({ role: "assistant", content: aiResponse });
+                    } else if (data.error) {
+                        addMessage(`Maaf, sayang, ada masalah: ${data.error.message || 'Unknown API error'}`, false);
+                    } else {
+                        addMessage("Aku bingung tadi, sayang. Tidak ada respons dari API!", false);
+                    }
+                } catch (error) {
+                    hideLoading();
+                    addMessage(`Maaf ya, sayang, ada kesalahan: ${error.message}. Coba lagi ya!`, false);
+                }
+            }
+
+            sendBtn.addEventListener('click', async function() {
+                const message = userInput.value.trim();
+                if (message) {
+                    addMessage(message, true);
+                    getAIResponse(message);
+                    userInput.value = '';
+                }
+            });
+
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && userInput.value.trim()) {
+                    sendBtn.click();
+                }
+            });
+
+            photoUpload.addEventListener('change', function() {
+                const file = photoUpload.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageData = e.target.result;
+                        addMessage(null, true, imageData);
+                        getAIResponse("Lihat gambar ini, sayang!", imageData);
+                    };
+                    reader.readAsDataURL(file);
+                    photoUpload.value = '';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
