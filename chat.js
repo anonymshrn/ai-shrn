@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
   const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
