@@ -3,759 +3,2120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to AI Ashrn</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        :root {
-            --primary: #ff6b6b;
-            --secondary: #ffd9d9;
-            --text: #333;
-            --light: #f8f9fa;
-        }
-
-        body {
-            overflow-x: hidden;
-            background-color: var(--light);
-            color: var(--text);
-        }
-
-        .login-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: linear-gradient(rgba(255, 107, 107, 0.5), rgba(255, 217, 217, 0.8));
-        }
-
-        .login-container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            text-align: center;
-            max-width: 400px;
-            width: 100%;
-        }
-
-        .login-container h1 {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .login-container .input-group {
-            position: relative;
-            margin: 15px 0;
-        }
-
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--secondary);
-            border-radius: 5px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .login-container .eye-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--text);
-        }
-
-        .login-container button {
-            padding: 10px 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.3s ease;
-        }
-
-        .login-container button:hover {
-            background: #ff5252;
-        }
-
-        .login-container .hint {
-            font-size: 0.9rem;
-            color: #777;
-            margin-top: 10px;
-        }
-
-        .main-page {
-            display: none;
-        }
-
-        .parallax-container {
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .parallax-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 120%;
-            background: linear-gradient(rgba(255, 107, 107, 0.5), rgba(255, 217, 217, 0.8)), url('/api/placeholder/1200/800') center/cover no-repeat;
-            transform: translateZ(-1px) scale(2);
-            z-index: -1;
-        }
-
-        .hearts {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-
-        .heart {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            transform: rotate(45deg);
-            animation: falling 6s infinite linear;
-        }
-
-        .heart:before, .heart:after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-        }
-
-        .heart:before {
-            top: -10px;
-            left: 0;
-        }
-
-        .heart:after {
-            top: 0;
-            left: -10px;
-        }
-
-        @keyframes falling {
-            0% { transform: translateY(-100px) rotate(45deg) scale(0.4); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(45deg) scale(0.4); opacity: 0; }
-        }
-
-        .header-content {
-            text-align: center;
-            color: white;
-            padding: 0 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header-content h1 {
-            font-size: 5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-            animation: pop 1s ease-out;
-        }
-
-        .header-content p {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 2s ease-out;
-        }
-
-        .scroll-btn {
-            display: inline-block;
-            padding: 15px 30px;
-            background-color: white;
-            color: var(--primary);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            animation: pulse 2s infinite;
-        }
-
-        .scroll-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .chat-section {
-            min-height: 100vh;
-            padding: 50px 20px;
-            background-color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .chat-container {
-            width: 100%;
-            max-width: 800px;
-            background-color: var(--light);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s ease;
-        }
-
-        .chat-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .chat-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            position: relative;
-        }
-
-        .logout-btn {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #fff;
-            color: var(--primary);
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background: #ff5252;
-            color: white;
-        }
-
-        .chat-messages {
-            height: 590px;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            max-width: 80%;
-            padding: 12px 15px;
-            border-radius: 20px;
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        .message.ai {
-            align-self: flex-start;
-            background-color: var(--secondary);
-            border-bottom-left-radius: 5px;
-        }
-
-        .message.user {
-            align-self: flex-end;
-            background-color: var(--primary);
-            color: white;
-            border-bottom-right-radius: 5px;
-        }
-
-        .message img {
-            max-width: 100%;
-            border-radius: 10px;
-        }
-
-        .loading {
-            display: flex;
-            align-self: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .loading div {
-            width: 10px;
-            height: 10px;
-            background-color: var(--secondary);
-            border-radius: 50%;
-            margin: 0 3px;
-            animation: bounce 1s infinite;
-        }
-
-        .loading div:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .loading div:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .chat-input {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
-
-        .input-wrapper {
-            position: relative;
-            flex: 1;
-            margin-right: 10px;
-        }
-
-        .input-wrapper input {
-            width: 100%;
-            padding: 12px 40px 12px 15px; /* Kasih ruang buat tombol foto */
-            border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            outline: none;
-        }
-
-        .photo-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--text);
-        }
-
-        .chat-input button#send-btn {
-            padding: 12px 20px;
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .chat-input button#send-btn:hover {
-            background-color: #ff5252;
-            transform: scale(1.05);
-        }
-
-        .chat-input .menu-btn {
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin-right: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .chat-input .menu-btn:hover {
-            background-color: var(--secondary);
-        }
-
-        .chat-input .feature-menu {
-            position: absolute;
-            bottom: 70px;
-            right: 20px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            padding: 10px;
-            display: none;
-            flex-direction: column;
-            align-items: flex-start;
-            z-index: 10;
-        }
-
-        .chat-input .feature-menu.active {
-            display: flex;
-        }
-
-        .chat-input .feature-menu div {
-            display: flex;
-            align-items: center;
-            padding: 8px 10px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            width: 100%;
-        }
-
-        .chat-input .feature-menu div:hover {
-            background-color: var(--secondary);
-        }
-
-        .chat-input .feature-menu span {
-            margin-left: 10px;
-            font-size: 1rem;
-            color: var(--text);
-        }
-
-        footer {
-            background-color: var(--light);
-            padding: 20px;
-            text-align: center;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .social-links {
-            margin-bottom: 15px;
-        }
-
-        .social-links a {
-            text-decoration: none;
-            color: var(--text);
-            margin: 0 20px;
-            display: inline-flex;
-            align-items: center;
-            transition: color 0.3s ease;
-        }
-
-        .social-links a:hover {
-            color: var(--primary);
-        }
-
-        .social-links img {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-        }
-
-        .footer-text {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        @keyframes pop {
-            0% { transform: scale(0.8); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
-            50% { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); }
-            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
-        }
-
-        @media (max-width: 768px) {
-            .header-content h1 { font-size: 3rem; }
-            .header-content p { font-size: 1.2rem; }
-            .social-links a { margin: 0 10px; }
-        }
-    </style>
+    <title>SMK PAB 2 Helvetia</title>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Library for scroll animations -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+   <style>
+/* Base Styles */
+:root {
+    --primary: #2563eb;
+    --secondary: #4338ca;
+    --accent: #06b6d4;
+    --background: #f5f5f5; /* Putih lembut untuk background */
+    --surface: #f5f5f5; /* Mengikuti background untuk konsistensi, bisa diganti jika Anda punya warna lain */
+    --text: #2D3436;
+--glass: rgba(201, 214, 255, 0.8); /* Putih semi-transparan untuk glass */
+}
+
+body {
+    background: var(--background); /* Menggunakan putih lembut */
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* Header Styles */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    position: relative;
+}
+
+.nav-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease, transform 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+    transform: translateY(-3px);
+}
+
+.nav-links a i {
+    margin-right: 0.5rem;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Animasi Slide-in */
+.slide-in {
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.slide-in.visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* Hero Section */
+    .hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://i.top4top.io/p_3331eu7vx8.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.hero h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #F8FAFC;;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slideIn 1.5s ease-in-out;
+}
+
+.hero-logo {
+    height: 150px;
+    width: auto;
+    margin-bottom: 1rem;
+}
+
+.hero h1 img {
+    height: 200px;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    color: #F8FAFC;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background: var(--accent);
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Tambahkan animasi berputar */
+@keyframes rotateOpen {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(90deg); }
+}
+
+@keyframes rotateClose {
+    0% { transform: rotate(90deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Tambahkan class untuk animasi */
+.menu-icon.rotate-open {
+    animation: rotateOpen 0.3s ease forwards;
+}
+
+.menu-icon.rotate-close {
+    animation: rotateClose 0.3s ease forwards;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+    width: 300px;
+    height: 100vh;
+    background: linear-gradient(135deg, #e5e7eb, #f5f5f5);
+    z-index: 1001;
+    transition: all 0.4s ease;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: 2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header h3 {
+    color: var(--text);
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.close-btn {
+    color: var(--text);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+    color: var(--accent);
+    transform: rotate(90deg);
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 1rem;
+}
+
+.sidebar-menu li {
+    margin: 1rem 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Garis pembatas di bawah setiap item */
+    padding-bottom: 0.5rem; /* Ruang untuk garis pembatas */
+}
+
+.sidebar-menu li:last-child {
+    border-bottom: none; /* Menghapus garis pembatas pada item terakhir */
+}
+
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a i {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.sidebar-menu a span {
+    font-size: 1.1rem;
+}
+
+.sidebar-menu a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu a:hover::before {
+    left: 0;
+}
+
+.sidebar-menu a:hover {
+    background: rgba(0, 0, 0, 0.05);
+    transform: translateX(10px);
+    color: var(--accent);
+}
+
+.sidebar-social {
+    position: absolute;
+    bottom: 2rem;
+    left: 1.5rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.sidebar-social a {
+    color: var(--text);
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.sidebar-social a:hover {
+    background: var(--accent);
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 250px;
+        left: -250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 200px;
+        left: -200px;
+    }
+    
+    .sidebar-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .sidebar-menu a {
+        padding: 0.8rem;
+    }
+    
+    .sidebar-menu a span {
+        font-size: 1rem;
+    }
+}
+
+/* Menu Icon */
+.menu-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text);
+    transition: all 0.3s ease;
+}
+
+.menu-icon:hover {
+    color: var(--accent);
+    transform: scale(1.1);
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 250px;
+        left: -250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 200px;
+        left: -200px;
+    }
+    
+    .sidebar-header h3 {
+        font-size: 1.2rem;
+    }
+    
+    .sidebar-menu a {
+        padding: 0.8rem;
+    }
+    
+    .sidebar-menu a span {
+        font-size: 1rem;
+    }
+}
+
+/* Social Media Menu */
+.social-menu {
+    position: absolute;
+    top: 60px;
+    right: 50px;
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 10px;
+    display: none;
+    box-shadow: 0 0 10px #fcfafa;
+    flex-direction: column;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.social-menu.show {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.social-menu a {
+    display: block;
+    color: var(--text);
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.social-menu a:hover {
+    background: var(--glass);
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+}
+
+.overlay.show {
+    display: block;
+}
+
+/* Profil Sekolah Section */
+.profil-section {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.timeline-item {
+    position: relative;
+    margin: 20px 0;
+    padding-left: 30px;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--accent);
+}
+
+.timeline-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-item p {
+    margin: 0;
+}
+
+/* Jurusan Section */
+.jurusan-section {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.jurusan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.jurusan-item {
+    background: var(--glass);
+    padding: 2rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.jurusan-item:hover {
+    transform: scale(1.05);
+}
+
+.jurusan-item i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Visi & Misi Section */
+.visi-misi {
+    display: flex;
+    justify-content: space-around;
+    margin: 50px 0;
+}
+
+.visi-misi div {
+    text-align: center;
+    max-width: 300px;
+}
+
+.visi-misi i {
+    font-size: 3rem;
+    color: var(--accent);;
+    margin-bottom: 1rem;
+}
+
+/* Company Partner Section */
+.company-partner {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.partner-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.partner-item {
+    text-align: center;
+}
+
+.partner-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Struktur Sekolah Section */
+.struktur-sekolah {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.struktur-sekolah h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.struktur-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.struktur-item {
+    text-align: center;
+}
+
+.struktur-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+/* Galeri Sekolah Section */
+.gallery {
+    padding: 100px 5%;
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.gallery h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--text);
+}
+
+.gallery-container {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.gallery-carousel {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* Animasi lebih smooth */
+    width: 100%;
+}
+
+.gallery-item {
+    flex: 0 0 100%;
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+    opacity: 0.9;
+}
+
+/* Navigation Buttons */
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 30px;
+    z-index: 10;
+}
+
+.carousel-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.carousel-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Pagination Dots */
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: white;
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* Berita & Pengumuman Section */
+.berita-section {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.berita-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: transform 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass);
+}
+
+.berita-card:hover {
+    transform: translateY(-10px);
+}
+
+/* Fasilitas Sekolah Section */
+.fasilitas-section {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.fasilitas-item {
+    position: relative;
+    margin: 20px 0;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.fasilitas-item:hover {
+    transform: scale(1.05);
+}
+
+/* Alumni & Testimoni Section */
+.testimoni-section {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.testimoni-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+}
+
+.testimoni-item {
+    flex: 0 0 auto;
+    width: 300px;
+    margin-right: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 20px;
+    scroll-snap-align: start;
+}
+
+/* Kontak & Lokasi Section */
+.kontak-section {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.kontak-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.kontak-form input, .kontak-form textarea {
+    width: 100%;
+    padding: 1rem;
+    margin: 10px 0;
+    border: 1px solid var(--glass);
+    border-radius: 10px;
+    background: var(--surface);
+    transition: border-color 0.3s ease;
+}
+
+.kontak-form input:focus, .kontak-form textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.kontak-form button {
+    padding: 1rem 2rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.kontak-form button:hover {
+    background: var(--primary);
+    transform: translateY(-3px);
+}
+
+/* Footer Styles */
+.footer {
+    background: #F8FAFC;
+    padding: 3rem 5%;
+    margin-top: 2rem;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.footer-section h3 {
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--accent);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--glass);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    background: var(--accent);
+    transform: translateY(-5px);
+}
+
+/* Statistik Section */
+.statistik-section {
+    padding: 100px 5%;
+    background: var(--surface);
+    text-align: center;
+}
+
+.statistik-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.statistik-item {
+    background: var(--glass);
+    padding: 2rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.statistik-item:hover {
+    transform: scale(1.05);
+}
+
+.statistik-item i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Ekstrakurikuler Section */
+.ekstrakurikuler-section {
+    padding: 100px 5%;
+    background: var(--surface);
+}
+
+.ekstrakulikuler-item {
+    background: var(--glass);
+    padding: 2rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.ekstrakurikuler-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Maps Section */
+.maps-section {
+    padding: 50px 5%;
+    background: var(--surface);
+}
+
+.maps-section iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+    border-radius: 10px;
+}
+
+/* Kontak dan Sosial Media Section */
+.kontak-sosial {
+    padding: 50px 5%;
+    background: var(--surface);
+    text-align: center;
+}
+
+.kontak-sosial .kontak-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.kontak-sosial .kontak-info i {
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+
+.kontak-sosial .kontak-info p {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.kontak-sosial .sosial-media {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.kontak-sosial .sosial-media a {
+    color: var(--text);
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.kontak-sosial .sosial-media a:hover {
+    color: var(--accent);
+}
+
+/* Chat Icon Styles */
+.chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: var(--accent);
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.chat-icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    background: var(--accent);
+}
+
+.chat-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+/* Smooth Transition for Page Change */
+body {
+    transition: opacity 0.5s ease;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+
+ /* Guru Section */
+.guru-section {
+    padding: 6rem 5%;
+    background: var(--surface);
+    margin: 2rem auto;
+    max-width: 1400px;
+    position: relative;
+    display: none;
+}
+
+.guru-section h2 {
+    font-size: clamp(2rem, 3vw, 2.5rem);
+    color: var(--accent);
+    margin-bottom: 3rem;
+    text-align: center;
+    position: relative;
+}
+
+.guru-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+}
+
+/* Foto Bersama Guru */
+.guru-group-photo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.guru-group-photo img {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* Search Bar Container */
+.guru-section .search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+}
+
+.guru-section input[type="text"] {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3.5rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 400;
+    transition: all 0.3s ease;
+}
+
+.guru-section .search-container::before {
+    content: '\f002'; /* Font Awesome search icon */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    font-size: 1.2rem;
+    z-index: 1;
+}
+
+.guru-section .search-container::after {
+    content: '';
+    position: absolute;
+    left: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 60%;
+    background: #d1d5db;
+    z-index: 1;
+}
+
+.guru-section input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.guru-section input[type="text"]::placeholder {
+    color: #9ca3af;
+    font-style: normal;
+}
+
+/* Back Button */
+.guru-section button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 auto 2.5rem;
+    padding: 0.8rem 2rem;
+    background: linear-gradient(45deg, #374151, #4b5563);
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.guru-section button:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.guru-section button i {
+    font-size: 1.2rem;
+}
+
+/* Guru List */
+.guru-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.guru-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+    background: none;
+    border: none;
+    padding: 0;
+    width: 100%; /* Mengikuti lebar maksimum */
+    max-width: 800px; /* Sama dengan foto bersama */
+}
+
+.guru-item:hover {
+    transform: translateY(-5px);
+}
+
+.guru-item img {
+    width: 100%;
+    max-width: 800px; /* Sama dengan foto bersama */
+    height: auto; /* Proporsional seperti foto bersama */
+    object-fit: cover;
+    margin: 0 auto 1rem;
+    border: none;
+    border-radius: 12px; /* Sama dengan foto bersama */
+    transition: all 0.3s ease;
+}
+
+.guru-item:hover img {
+    transform: scale(1.02); /* Sedikit lebih kecil efek scale untuk ukuran besar */
+}
+
+.guru-item h3 {
+    font-size: 1.4rem; /* Sesuaikan ukuran teks untuk foto besar */
+    margin: 0;
+    color: var(--text);
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.guru-item h3::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+.guru-item:hover h3 {
+    color: var(--accent);
+}
+
+.guru-item:hover h3::before {
+    width: 80%;
+}
+
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .timeline {
+        grid-template-columns: 1fr;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .guru-section {
+        padding: 4rem 1.5rem;
+    }
+
+    .guru-list {
+        gap: 1.5rem;
+    }
+
+    .guru-item {
+        max-width: 600px;
+    }
+
+    .guru-item img {
+        max-width: 600px;
+    }
+
+    .guru-section .search-container {
+        max-width: 450px;
+    }
+
+    .guru-group-photo img {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 480px) {
+    .guru-section {
+        padding: 3rem 1rem;
+    }
+
+    .guru-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .guru-item {
+        max-width: 100%;
+    }
+
+    .guru-item img {
+        max-width: 100%;
+    }
+
+    .guru-section .search-container {
+        max-width: 100%;
+    }
+
+    .guru-section button {
+        padding: 0.6rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .guru-item h3 {
+        font-size: 1.2rem;
+        padding: 0.4rem 1.2rem;
+    }
+
+    .guru-group-photo img {
+        max-width: 100%;
+    }
+}
+</style>
 </head>
 <body>
-    <section class="login-page" id="login-page">
-        <div class="login-container">
-            <h1>Masuk ke AI Ashrn</h1>
-            <div class="input-group">
-                <input type="text" id="username" placeholder="Nama kamu">
-            </div>
-            <div class="input-group">
-                <input type="password" id="password" placeholder="Tanggal spesial">
-                <span class="eye-btn" onclick="togglePassword()">
-                    <img id="eyeOpen" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACbElEQVR4nO1Wy2oUURBtRSHqBxjjQuMDHwtX2Wfni2TS51xvRBwdoxBEMBFjxF3W5itcJzGi7n3sFKJg4g+Yf9CFJimpOz09d7p7unucERSmoKDpqrqnXrduBUGf+vS/kVg7LMbcFmBRgGcRL7p/ExNH/w7o9PReMaYqwGchpYA/CXBdRkf39AbcmHPu0GLgJK+LMSPdgZN3hPzlHarfSy4bYXhcxsb2O9Zv/UcuC7AV6wM/BZj6U/AniYheCnmkVI8Arzy7HSHnOwM35lpkWI86DO+mdIBDQl6WMLwk1g5myO952dgRYybLgVt7VoAfUQq3JAyZkB+OstFwUPW2BXghlcpQwgnrZHUdPfN0PngQ7BLgvZe+uQzwzZzG20w5Qc57jr5VjPYOGDOZpxxF3uxyYMYxueH9X00FRb7zzr3S3gHyY5zSMDzTIqtUhry0r0utNhDLarWB2Am1TfREVNZGKT60i37Ei2IpJddma0ZxP8P5Wc/+QoZ8OZZnzQcpcgC46DkwkyF/4AGc79iBwhLotWukUdPtl8DafQJ87aoE8bXJa0K9as0sbURpn43B63YrLTYLC7tbblZuEwapjn2U0YjtryHwTTPVYkM+9uRvcq+hkqbeG0TbqUFUd2LVK0ddj3yeAtdr3dT7LtaeCsqQkFcLR7G1g64xlcfHDxaOYsCWAk+krjludQhZOxwUkJDHhHydeIweFtllktty/OdYIwJWhLwh1p6QavWAY/KkADejMrQ+x+StoAcLyVrHCwnwpeuFpEG6Xrk1q9xmtOae816tZEnSxVO3HAGeekupfk+VWVj61Kd/jn4DMi0jSaJqgh4AAAAASUVORK5CYII=" alt="Mata Terbuka" style="display: block;">
-                    <img id="eyeClosed" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACxElEQVR4nO1XS2sUQRAeRcHHPfFxEKPiA3ygyTlgDopks/NV2z5w46obg3hIREEklz0r4m/Qm0Y9iCeDiXgIaNCAwZOe9Deoh7huSff0zPb29D6zSS4paFi6auqrrv6qujYI1mQFhbPZY2qtDjhRgYF/Zh1dHXAiXnIALOVuFuIaAw8YeMxET5joEQNXmWhfXXCiMofh9dZBR0c3shA5BuaNo3prjoHLXCyu7ww4cJyBL00AVy/g+9LBiQpM9NdyrH5P6myE4R4eHNzC+fwmfS3ABa0DFp1g2ga/5zh6xUS7mviu6MnI7dbAhbioI49PHYY3UjbAdiY6w0IMcCbTbfZGHLaXkiwIkWsOXMpDDPwxTkochuTod5pslJ2rmXLAR5ho2Nr7xWF4sD54EKxj4L3l+I4H/GcD8mlwK1MTlm5WYdRL/TnL+J1rbE4egy0wMMbAWyeAN55DzVg252sHQPQxOYWTLh4a2mGlfUGz377zSgCLDHR5rjXmw+dap++1HE2m9MBpC2QsRTiiaUt/0vP9M0vflw4A6LMMnnoCHLACnPYQbtzSn/Jk93miF6LXnwWYVhul60CVLpPpdppSBVzKzQx8Tfak3Oa5gjjgD15wJaabxc5nPCSccgJQBBxPwKO9F1XfqDfBrizgbFBLOGLsrGU8keh8hEuX4A/VoJyg79Y7VEoU+3XTqJBrOPWeR02n0vOjvZcpcFXWlaB/s5T7g2aEgUtJySk+OIQzNl2amKo6TCt2fNysasWAbAo8FgZuedJcDBoIE/Uw0euq17DVx8h6isupJqPKKXqsejT7c7mtahLSQ0h0DSXH/krQgRnuWxsDyXxbEzCnwUdMKakTzjUB/klnqL9/Q0fAA9dGyr0sRJ6Bh3ogVYMpcN8MpQ0HltrgQhxpBL78/1pIl4sKorCi4LFwGJ7gbPZwsrEmwfLLf1FB4oamo6vxAAAAAElFTkSuQmCC" alt="Mata Tertutup" style="display: none;">
-                </span>
-            </div>
-            <button onclick="login()">Masuk</button>
-            <p class="hint">Petunjuk: Tanggal ketika kita resmi jadi satu.</p>
+<!-- Header -->
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <img src="https://i.top4top.io/p_3332wr9k60.png" alt="SMK PAB 2 Helvetia Logo">
+        </div>
+        <div class="menu-icon" onclick="toggleSidebar()">
+             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAACXBIWXMAAAsTAAALEwEAmpwYAAADa0lEQVR4nO1YzU8TQRRfFBL8PInsNmjtTNGDiQnsvC0aZUkkBi964qSdMaAS8OafwV30oDe583EyYAo7xXjAPwEUEhM9gyZaQ83r7mzX0v1opIkffcmkyez0937vvZn33oymteR/lTMX+lJ6ltmpDBsOGwbNmZptt4eC2HY7ronCQB2oKzExwzCPGhSeGRT2DArlBONDNzWHanFwDr8lxNgzKHuKuuMJuuTKDQ0Cuz20L+uTO29lDAI7DeNQNhNJDl3te45AQacwEhOeKYOwUi24byRhJZ3AZCQGhRGDwIryZFca9HDvZaxrvjVZ60asuzVN0wl7g+t1ypb9OcqWK3ME1pJgoK5qNMyroQu9fVNZWG9f1QUnUFAej5qLksR6WwRDpOVBo7UH/5ZDYlCzXy3EJBwH3NMzcEQnsO3lvDk1rxNYcHMjbKXTdmc8QfZI6U1lWZ8WXdzZe78KUCjqFJZCB3HJVYAzbKxqKNz3DSWwHYlBoehXI8I2I5sP1xpzqNE6qhOY1zStLQBzSHmxgXq+g52NlkRO9zJiEHgSYzl6cM7IWuM15JS04TdcE4eDulBnInItOQjpypoUG8gEIZ7HAxES4orYhdHj4IgHlsNfWlIsBcYiSD4NxTxriJx3SHYbPCQLeDBqsZjkN8ERny0pypHD4bOXXt09Fs/ONDv8Nt1NMzLGi1uB/nF8HzkpfigS4PCPlhQryoMgxTpIUfK/S/7aXH/YEcnvl0RNYDLOnnTa7gwkakw1gbDyT553vliST2jl/dvg8tpYGhxeqBqRfxyp8KBKHeCe80PIJ6L+j8ZYkm94a7frGXLgBC2Hz6qwRir0DeKTyiCzyGnzCUq+7BF0kmCAI64rgjmZb/6dBLx9hb9JMHJSDFUJiubfSeBPJ2hJseiljndJMKzV/G1FcGD1Xn/TCYLk0y5BUcoVxLk4DHD4CzcliW9XimMnmn5xh2KeBRJ0AVNJ2P9zRX7LcsSeZ5Df9NaVU2dNI/D0sRL39NGNnXCdp49gqvHy2wZz8lNM5ofVwLCCw5/75BzxFSS/GOuRyivTbz4eoWBtxfIVW4c9ckhYS/78xmYSP78RthnWCdsFux3LF1aIkCbhO4Y1kefqhVvvhcGoEKcqF5zRw0nwsELAKh9UIcbTar29c7JhYi351+QngWBaDbd0NyMAAAAASUVORK5CYII=" alt="external-application-user-interface-anggara-outline-color-anggara-putra">
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Menu</h3>
+            <i class="fas fa-times close-btn" onclick="toggleSidebar()"></i>
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="#home" onclick="toggleSidebar()">
+                    <i class="fas fa-home"></i>
+                    <span>Beranda</span>
+                </a>
+            </li>
+            <li>
+                <a href="#profil" onclick="toggleSidebar()">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+            <li>
+                <a href="#jurusan" onclick="toggleSidebar()">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Jurusan</span>
+                </a>
+            </li>
+            <li>
+                <a href="#galeri" onclick="toggleSidebar()">
+                    <i class="fas fa-images"></i>
+                    <span>Galeri</span>
+                </a>
+            </li>
+            <li>
+                <a href="#aktivitasCarousel" onclick="toggleSidebar()">
+                    <i class="fas fa-users"></i>
+                    <span>Ekstrakurikuler</span>
+                </a>
+            </li>
+            <li>
+                <a href="#aktivitas-sekolah" onclick="toggleSidebar()">
+                   <i><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAYAAACpSkzOAAAACXBIWXMAAAsTAAALEwEAmpwYAAABoElEQVR4nOXVu2sWQRTG4ScgiaBNiJBCLUX7qI2FIBYJIlhoZaN2YiGiItiZCPonWHgD0c5LI2oTvEY7L6AE0qVRAxIr7VwZOMXH5+zO5ItWHjiwzLw7v905c97hf4wh7MAMHmAuMj1PY3toVhV78RZNIT/i0CCAEdyoADR9eRtrVwJ5OgCkiZzFcA3oZmGhRdwpaK6VIPsqvvh8FH+5oJtsg6SXP1SAzoZ+qaB713Yad1bWoBbUYCIHuvgPQNM50P1VgmZxMuYfxdjdHOhNJehMBnQK4wE6jc04jFeDglKBxzCKnzGWrGgTvvbovmMbjudA9yogG7AeL3rGk/VczuivRvP/ETMdkKUeyPO+uSlcybyTrY9w4TbQNxzAy8zcJezBr77xVpNNzfW+8kA0PbkcNToYW/oaRxViagWAHziCNXE4ctl5T12vBJ3DbnwubPn+NtBINF8JtBXPKnSfuv5qOKy+a4HxShP+oiImo39yC+zCrQrQY5UxFC58IZp6Llwkdf1GzHdA0iW5pRZUilTTY3gY0AU8wQms+1uQ6vgNRc5b1Y4r5+wAAAAASUVORK5CYII=" alt="meeting-time"></i>
+                    <span>Aktivitas Sekolah</span>
+                </a>
+            </li>
+            <li>
+                <a href="#berita" onclick="toggleSidebar()">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Berita</span>
+                </a>
+            </li>
+            <li>
+                <a href="#guru" onclick="showGuruPage(); toggleSidebar()">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Guru & Staf</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-social">
+            <a href="https://www.facebook.com/smkpab2official" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://x.com/smks_pab2" target="_blank"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.instagram.com/smkpab2official" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtube.com/@smkpab2helvetia593?si=ofHqUzD0hvxN-KlM" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+    </nav>
+</header>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>
+                <img src="https://h.top4top.io/p_3332kkqym1.png" alt="SMK PAB 2 Helvetia Logo" class="hero-logo">
+                SMK PAB 2 Helvetia
+            </h1>
+            <p><i>UNGGUL DALAM ILMU JAYA DALAM KARIR!</i></p>
+            <a href="#profil" class="cta-button">Pelajari Lebih Lanjut</a>
         </div>
     </section>
 
-    <section class="main-page" id="main-page">
-        <section class="parallax-container">
-            <div class="parallax-bg"></div>
-            <div class="hearts" id="hearts-container"></div>
-            <div class="header-content">
-                <h1>Welcome to AI Ashrn</h1>
-                <p>Sebuah AI spesial yang dibuat dengan cinta untukmu</p>
-                <a href="#chat" class="scroll-btn">Mulai Chat</a>
+    <!-- Profil Sekolah Section -->
+    <section class="profil-section" id="profil">
+        <center><h2>Profil Sekolah</h2></center>
+        <div class="timeline">
+            <div class="timeline-item slide-in">
+                <h3>Akreditasi</h3>
+                <p>A (UNGGUL)</p>
             </div>
-        </section>
-
-        <section class="chat-section" id="chat">
-            <div class="chat-container" id="chat-container">
-                <div class="chat-header">
-                    AI Ashrn Chat
-                    <button class="logout-btn" onclick="logout()">
-                      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAA8klEQVR4nN2VTQ4BQRCFncDPGezElr3EQmJh3os+i51Yuoafa9hYOAAJa2NLwgHkyUxGLIyoxiSo5O2q+uuq7n6dy/1dqNMpChgLOImUSVFuVONc4TkgSrQuzDuNLIDrzhcih0Ytkk6OzwG3tgfmsZL9pOacDQCoidwLmHwcIKCqdrtk3YwXQACS3K2CoJwdgLFCEyQNIOcKIhsimymaeUFSAeTK4y2sXwEsPV71xh/QauWNI9q9NKJHIaDrtfgbgDCTaxqFnKuYXPQtqwiCuoCDyOkXmB0SuwbmAnpGze12nfmH42JbGHl+mce4xuewfyYunfwOhn7XNpcAAAAASUVORK5CYII=" alt="exit"><p>Log Out</p></button>
-                </div>
-                <div class="chat-messages" id="chat-messages">
-                    <div class="message ai">
-                        Hai! Aku AI Ashrn. Ada yang bisa aku bantu hari ini, sayang?
-                    </div>
-                </div>
-                <div class="chat-input">
-                    <div class="input-wrapper">
-                        <input type="text" id="user-input" placeholder="Ketik di sini...">
-                        <button class="photo-btn" onclick="document.getElementById('photo-upload').click()">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAbCAYAAACN1PRVAAAACXBIWXMAAAsTAAALEwEAmpwYAAACc0lEQVR4nO2VzYtPURjHL+OtGDaUZBJZYOS1lKKJlN/i597z/Z5OXhpGI2Mx2ZEFGrKxY0OKosk/MMgsKBZYsPASFt7KxlveSonVV+fM/d2acX/399JvOU89de+5z3M+5zznOd8bReMWRZGcWyZySMBrAW9z/JGM2V+zWOrqmiRrV8uYtZk7Nyv7HsftIj+IPCdyS64DewR8FLmrGEZuFfknWyX5Q+QFkYtSPyryrqJoQo15tgt4HnKA+f/FB9BIwFA2BhwQ+T1z4JvIbTUr5NwUAS/SnL8C3suYcgXkt/9FAORcW9RCU1/fZBlDkV9FbvKwByL3+u0K2OGboHCCnp5pAvoF3AnnA/wKVQHOyrnFuTnkPt88vly/lSQdMmaDSIl8WBWUJKsEvBNwT9b2yNpOD0ircz4FH8mBLfAl9Q9SuTxbzs0QcFnk7lwQsDw9h/6qiyGXpNfi5KhxPz+pDFZYOufaRD4TcKgozpucWxiayZj1zcFGDvllvQ0k8rDIm83BgCsij9UD8ibn5oY72909vRnYfRmTFMWMtXCdjFnaHAyIi2LGWrgW1nY2DiOv5rV01fhyeXZQjzhubxxm7U6Rj2vpYsUEHBRwO3tvCOZlB3jl9bIozpvieJ7IzwI2NwULCcasE/DT77JqTJJ0iHwi8syo8UZhIcnajSI/CbjmlTy0eBy3C1gj4FRYDHlaAwMT82Ejq11RDywklkozBRwX8DQ0AalUkAc9NDcHWOn/j/5hUOTFemGjJvF/ilJpas044JIXBn/b54h8I/K6rO0V4Frm1vaKvBHEuXJUqeKfEDks4FbLnBwWOVCRrXGLWmH/ADL9UCmvj6T9AAAAAElFTkSuQmCC" alt="camera--v2">
-                        </button>
-                    </div>
-                    <input type="file" id="photo-upload" accept="image/*" style="display: none;">
-                    <button id="send-btn">Kirim</button>
-                </div>
+            <div class="timeline-item slide-in">
+                <h3>NPSN</h3>
+                <p>10214052</p>
             </div>
-        </section>
-
-        <footer>
-            <div class="social-links">
-                <a href="https://www.instagram.com/rafii_a16?igsh=OGN2dWh0MWJ2ZWFn" target="_blank">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADAklEQVR4nO1YTU8UQRAlJnCR+FdED6L/gIPs9KvZ8cR5b0Ii3jdGEdETKr9A5IJ6QLmi/AlF0IvCelg8mMWgkmyZ6pns7vTMfszHzizJVFLJZqfn9Xvd1TXVNTZWWGGFFXZujB1ngm37FgMbDOwxcMJEnMiBEw9rQ2M7zsRwyCtFDHxNTLi/f2EA6RGvVi8w8DgD4mzszIrMnVwA0ZPMyVPLHyUPmyDoPwa2mGiRgTIrdTORA2UP6y0TnYXMp+If2GDMHzNwOzHpbl4qzes5/KF0wJXKeHQBkhGCK58+eeCeR7rOSlUZmA/sBFCOLkDSmh9kayirTlTvmKfu/ffOWLz16AKIPvtAlLrTl4xlKTl4rNQuA4cMnHp+qP+TZzKmv4BFY/H24uxAw9zGPuQfMvBjgMxSY6WWOt6teiLcEGof7M65G3F2wD9x9xCYZeB1jDz/Sr/bHdc3fpgC3iTI85v5CpCwCZL6w0SrbNvTPDd3Ubv8Bp4x8DdkJx7kI0AOoxnz7sG93BXTsqb0GD9uTT5W2QuQjGKufA/yLVzbvhLYCWA5jxDaNcasRsB+brz7Po8dMEPh2sDYwPVA6KmsBcgHqvO540wOjO04k4aA0/MlYGbmkiHgd/4hZNvTA2MrdWMUQuiDMeZpBOw1Q8DOaKRRy5rqiwtcHY00aunKsxYIhR4iNHmiI+Odo3w+ZK4vBcbJ6krZIHEu2Ubcjfm1kFKiycD9fIu5OJVoG3NzFKrRWa80jkK+qStRGmY5HfVC41aV/jMR5hLz3cJGtdx/Hwd+Jb9SyjWv96SyalKhLuvahuh760pJ9E2nSvdZ8MCqwGLcTeNK+TKTS70KFbBtzP0inbaK9G2GL2AhnbaKNLak0eoXcTxkEQsM/DTI78dqbGkRAEIO4pluA0qcptVahMbaDmktyneiFIt8h4jsO9PULjESke9or69kTL6pa6002ustIW6KPMhg1fdZKSs14j4Rlcq41zVbZ+BT4GMXj3CDiT5KqtTYcQ9sYYUVVthYHvYfFXNxfw0PdWwAAAAASUVORK5CYII=" alt="Instagram">
-                    @rafii_a16
-                </a>
-                <a href="https://www.instagram.com/shrn_alsyf?igsh=MTRvYjVqcTJ3MWc2OA==" target="_blank">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADAklEQVR4nO1YTU8UQRAlJnCR+FdED6L/gIPs9KvZ8cR5b0Ii3jdGEdETKr9A5IJ6QLmi/AlF0IvCelg8mMWgkmyZ6pns7vTMfszHzizJVFLJZqfn9Xvd1TXVNTZWWGGFFXZujB1ngm37FgMbDOwxcMJEnMiBEw9rQ2M7zsRwyCtFDHxNTLi/f2EA6RGvVi8w8DgD4mzszIrMnVwA0ZPMyVPLHyUPmyDoPwa2mGiRgTIrdTORA2UP6y0TnYXMp+If2GDMHzNwOzHpbl4qzes5/KF0wJXKeHQBkhGCK58+eeCeR7rOSlUZmA/sBFCOLkDSmh9kayirTlTvmKfu/ffOWLz16AKIPvtAlLrTl4xlKTl4rNQuA4cMnHp+qP+TZzKmv4BFY/H24uxAw9zGPuQfMvBjgMxSY6WWOt6teiLcEGof7M65G3F2wD9x9xCYZeB1jDz/Sr/bHdc3fpgC3iTI85v5CpCwCZL6w0SrbNvTPDd3Ubv8Bp4x8DdkJx7kI0AOoxnz7sG93BXTsqb0GD9uTT5W2QuQjGKufA/yLVzbvhLYCWA5jxDaNcasRsB+brz7Po8dMEPh2sDYwPVA6KmsBcgHqvO540wOjO04k4aA0/MlYGbmkiHgd/4hZNvTA2MrdWMUQuiDMeZpBOw1Q8DOaKRRy5rqiwtcHY00aunKsxYIhR4iNHmiI+Odo3w+ZK4vBcbJ6krZIHEu2Ubcjfm1kFKiycD9fIu5OJVoG3NzFKrRWa80jkK+qStRGmY5HfVC41aV/jMR5hLz3cJGtdx/Hwd+Jb9SyjWv96SyalKhLuvahuh760pJ9E2nSvdZ8MCqwGLcTeNK+TKTS70KFbBtzP0inbaK9G2GL2AhnbaKNLak0eoXcTxkEQsM/DTI78dqbGkRAEIO4pluA0qcptVahMbaDmktyneiFIt8h4jsO9PULjESke9or69kTL6pa6002ustIW6KPMhg1fdZKSs14j4Rlcq41zVbZ+BT4GMXj3CDiT5KqtTYcQ9sYYUVVthYHvYfFXNxfw0PdWwAAAAASUVORK5CYII=" alt="Instagram">
-                    @shrn_alsyf
-                </a>
+            <div class="timeline-item slide-in">
+                <h3>Status</h3>
+                <p>Swasta</p>
             </div>
-            <div class="footer-text">
-                From: Ashrn
+            <div class="timeline-item slide-in">
+                <h3>Bentuk Pendidikan</h3>
+                <p>SMK</p>
             </div>
-        </footer>
+            <div class="timeline-item slide-in">
+                <h3>Status Kepemilikan</h3>
+                <p>Yayasan</p>
+            </div>
+                        <div class="timeline-item slide-in">
+                <h3>ZK Pendirian Sekolah</h3>
+                <p>082/I.05/ A.85</p>
+            </div>
+                        <div class="timeline-item slide-in">
+                <h3>Tanggal SK Pendirian</h3>
+                <p>1985-05-01</p>
+            </div>
+                        <div class="timeline-item slide-in">
+                <h3>Tanggal SK Izin Operasional</h3>
+                <p>2019-07-15</p>
+            </div>
+                        <div class="timeline-item slide-in">
+                <h3>SK Izin Operasional</h3>
+                <p>421.5/952/DIS PM</p>
+                <p>PPTS/6/VII/2019</p>
+            </div>
+        </div>
+        <div class="visi-misi">
+            <div>
+                <i class="fas fa-bullseye"></i>
+                <h3>Visi</h3>
+                <p>Menjadi sekolah unggulan yang mencetak lulusan berkarakter, berkompeten, dan siap bersaing di dunia industri serta kewirausahaan.</p>
+            </div>
+            <div>
+                <i class="fas fa-flag"></i>
+                <h3>Misi</h3>
+                <p>Menyediakan pendidikan berbasis teknologi dan kebutuhan industri.
+Membangun karakter disiplin, kreatif, dan inovatif pada siswa.</p>
+            </div>
+        </div>
     </section>
 
-    <script>
-        // Cek status login saat halaman dimuat
-        if (localStorage.getItem('loggedIn') === 'true') {
-            document.getElementById('login-page').style.display = 'none';
-            document.getElementById('main-page').style.display = 'block';
-            initChat();
+    <!-- Statistik Section -->
+    <section class="statistik-section" id="statistik">
+        <h2>Statistik Sekolah</h2>
+        <div class="statistik-grid">
+          <div class="berita-card slide-in">
+                <a href="#guru" onclick="showGuruPage()" style="color: inherit; text-decoration: none;">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Jumlah Guru</h3>
+                    <p>45 orang</p>
+                </a>
+            </div>
+            <div class="berita-card slide-in">
+                <i class="fas fa-graduation-cap"></i>
+                <h3>Jumlah Alumni</h3>
+                <p>11.406 orang</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Struktur Sekolah Section -->
+    <section class="struktur-sekolah" id="struktur-sekolah">
+        <h2>Struktur Sekolah</h2>
+        <div class="struktur-grid">
+            <div class="struktur-item slide-in">
+                <img src="https://h.top4top.io/p_3331wrbwo7.png" alt="Kepala Sekolah">
+                <h3>Kepala Sekolah</h3>
+                <p>Ahmad Wijaya, S.E</p>
+            </div>
+            <div class="struktur-item slide-in">
+                <img src="https://g.top4top.io/p_3331q7jyv6.png" alt="Wakil Kepala Sekolah">
+                <h3>Wakil Kepala Sekolah</h3>
+                <p>Mila Eprida, S.Pd</p>
+            </div>
+            <div class="struktur-item slide-in">
+                <img src="https://f.top4top.io/p_33314spha5.png" alt="Kepala Tata Usaha">
+                <h3>Kepala Tata Usaha</h3>
+                <p>Desi Rakhma Handayani, SE</p>
+            </div>
+            <div class="struktur-item slide-in">
+                <img src="https://e.top4top.io/p_3331cecva4.png" alt="Wakil Kepala Sekolah Kesiswaan">
+                <h3>Wakil Kepala Sekolah Kesiswaan</h3>
+                <p>Ummi Saidah, SE, S.Pd, M.M</p>
+            </div>
+            <div class="struktur-item slide-in">
+                <img src="https://d.top4top.io/p_3331161s93.png" alt="Operator IT">
+                <h3>Operator IT</h3>
+                <p>Tri Indra Kusuma, S. KOM</p>
+            </div>
+            <div class="struktur-item slide-in">
+                <img src="https://c.top4top.io/p_3331yncfg2.png" alt="Kepala IT">
+                <h3>Kepala IT</h3>
+                <p>Muhammad Elvan S.Kom</p>
+            </div>
+            <div class="struktur-item slide-in">
+                <img src="https://b.top4top.io/p_33317cdio1.png" alt="Bimbingan Konseling 1">
+                <h3>Bimbingan Konseling</h3>
+                <p>Sajidah Khotimah, S.Pd</p>
+            </div>
+            <div class="struktur-item slide-in">
+                <img src="https://a.top4top.io/p_3331x4kra0.png" alt="Bimbingan Konseling 2">
+                <h3>Bimbingan Konseling</h3>
+                <p>Wira Wardani, S.Pd</p>
+            </div>
+        </div>
+    </section>
+
+<!-- Daftar Guru Section -->
+<section class="guru-section" id="guru-content">
+    
+    
+
+    <button onclick="showMainPage()">
+        <i class="fas fa-arrow-left"></i> Kembali ke Halaman
+    </button>
+    <div class="search-container">
+        <input type="text" id="searchGuru" placeholder="Cari Guru..." onkeyup="searchGuru()">
+    </div>
+    <!-- Foto Bersama Guru -->
+    <div class="guru-group-photo">
+        <img src="https://g.top4top.io/p_334963jrl0.jpg" alt="Foto Bersama Guru">
+    </div>
+        <h2>Daftar Guru dan Staf</h2>
+    <div class="guru-list">
+        <!-- Daftar guru akan ditambahkan via JavaScript -->
+    </div>
+</section>
+ 
+    <!-- Galeri Sekolah Section -->
+<section class="gallery" id="galeri">
+    <center><h2>Galeri Sekolah</h2></center>
+    <div class="gallery-container">
+        <div class="gallery-carousel" id="galleryCarousel">
+            <div class="gallery-item">
+                <img src="https://g.top4top.io/p_3349wuvmx4.jpg" alt="Galeri 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://f.top4top.io/p_33493glxj3.jpg" alt="Galeri 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://e.top4top.io/p_3349xr9s72.jpg" alt="Galeri 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://d.top4top.io/p_3349e0dzj1.jpg" alt="Galeri 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://c.top4top.io/p_3349azlm10.png" alt="Galeri 5">
+            </div>
+            <div class="gallery-item">
+                <img src="https://g.top4top.io/p_334963jrl0.jpg" alt="Galeri 6">
+            </div>
+        </div>
+        <div class="carousel-nav">
+            <button class="carousel-btn prev" onclick="prevSlide()">‹</button>
+            <button class="carousel-btn next" onclick="nextSlide()">›</button>
+        </div>
+        <div class="carousel-dots" id="carouselDots">
+            <span class="dot" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+            <span class="dot" onclick="goToSlide(3)"></span>
+            <span class="dot" onclick="goToSlide(4)"></span>
+            <span class="dot" onclick="goToSlide(5)"></span>
+        </div>
+    </div>
+</section>
+
+    <!-- Company Partner Section -->
+    <section class="company-partner" id="company-partner">
+        <h2>Perusahaan Mitra</h2>
+        <div class="partner-grid">
+            <div class="partner-item slide-in">
+                <img src="https://l.top4top.io/p_3331540yf5.png" alt="PT.SAE AKADEMI MEDAN">
+                <p>PT.SAE AKADEMI MEDAN</p>
+            </div>
+            <div class="partner-item slide-in">
+                <img src="https://i.top4top.io/p_3331fdvz72.png" alt="PT INDO BISNIS SYARIAH">
+                <p>PT.INDO BISNIS SYARIAH</p>
+            </div>
+            <div class="partner-item slide-in">
+                <img src="https://a.top4top.io/p_3331suwnm6.png" alt="PT.DREAMARCH">
+                <p>PT.DREAMARCH</p>
+            </div>
+            <div class="partner-item slide-in">
+                <img src="https://j.top4top.io/p_3331as9vv3.png" alt="DIGITAL EXPERT">
+                <p>DIGITAL EXPERT</p>
+            </div>
+            <div class="partner-item slide-in">
+                <img src="https://k.top4top.io/p_3331dpaum4.png" alt="PT TELKOMUNIKASI INDONESIA">
+                <p>PT TELKOMUNIKASI INDONESIA</p>
+            </div>
+            <div class="partner-item slide-in">
+                <img src="https://g.top4top.io/p_3331suy7h0.png" alt="PT.MEDIATAMA INTEGRASI TEKNOLOGI">
+                <p>PT.MEDIATAMA INTEGRASI TEKNOLOGI</p>
+            </div>
+            <div class="partner-item slide-in">
+                <img src="https://h.top4top.io/p_3331xe9du1.png" alt="PT.CODING LABS">
+                <p>PT.CODING LABS</p>
+            </div>
+        </div>
+    </section>
+
+<!-- Aktivitas Sekolah Section -->
+<section class="gallery" id="aktivitas-sekolah">
+    <center><h2>Aktivitas Sekolah</h2></center>
+    <div class="gallery-container">
+        <div class="gallery-carousel" id="aktivitasCarousel">
+            <div class="gallery-item">
+                <img src="https://f.top4top.io/p_3351khc2p0.png" alt="Aktivitas 1">
+            </div>
+            <div class="gallery-item">
+                <img src="https://g.top4top.io/p_3351e7sg11.png" alt="Aktivitas 2">
+            </div>
+            <div class="gallery-item">
+                <img src="https://h.top4top.io/p_3351qhsv32.jpg" alt="Aktivitas 3">
+            </div>
+            <div class="gallery-item">
+                <img src="https://j.top4top.io/p_3351usg3c4.png" alt="Aktivitas 4">
+            </div>
+            <div class="gallery-item">
+                <img src="https://i.top4top.io/p_33516alle3.png" alt="Aktivitas 5">
+            </div>
+        </div>
+        <div class="carousel-nav">
+            <button class="carousel-btn prev" onclick="prevSlideAktivitas()">‹</button>
+            <button class="carousel-btn next" onclick="nextSlideAktivitas()">›</button>
+        </div>
+        <div class="carousel-dots" id="aktivitasDots">
+            <span class="dot" onclick="goToSlideAktivitas(0)"></span>
+            <span class="dot" onclick="goToSlideAktivitas(1)"></span>
+            <span class="dot" onclick="goToSlideAktivitas(2)"></span>
+            <span class="dot" onclick="goToSlideAktivitas(3)"></span>
+                        <span class="dot" onclick="goToSlideAktivitas(4)"></span>
+        </div>
+    </div>
+</section>
+
+<section class="fasilitas-section" id="berita">
+    <center><h2>Berita & Pengumuman</h2></center>
+    <div class="jurusan-grid">
+        <div class="berita-card slide-in">
+            <h3>Pengumuman Libur Sekolah</h3>
+            <p>Libur sekolah akan dimulai pada tanggal 20 Desember 2023.</p>
+        </div>
+        <div class="berita-card slide-in">
+            <h3>Workshop Teknologi</h3>
+            <p>Ikuti workshop teknologi terbaru pada tanggal 15 Januari 2024.</p>
+        </div>
+    </div>
+</section>
+
+    <!-- Jurusan Section -->
+    <section class="jurusan-section" id="jurusan">
+        <center><h2>Jurusan</h2></center>
+        <div class="jurusan-grid">
+            <div class="berita-card slide-in">
+                <i class="fas fa-laptop-code"></i>
+                <h3>PPLG</h3>
+                <p>Program Perangkat Lunak dan Game, jurusan ini mempersiapkan siswa untuk menjadi programmer yang profesional dan berkualitas.</p>
+            </div>
+            <div class="berita-card slide-in">
+                <i class="fas fa-chart-line"></i>
+                <h3>MP</h3>
+                <p>Manajemen Perkantoran, jurusan ini mempersiapkan siswa untuk menjadi ahli di bidang perkantoran.</p>
+            </div>
+            <div class="berita-card slide-in">
+                <i class="fas fa-money-check-alt"></i>
+                <h3>AK</h3>
+                <p>Akuntansi dan Keuangan, jurusan ini mempersiapkan siswa untuk menjadi ahli di bidang akuntansi dan keuangan.</p>
+            </div>
+        </div>
+    </section>
+
+<section class="fasilitas-section" id="fasilitas-sekolah">
+    <center><h2>Fasilitas Sekolah</h2></center>
+    <div class="jurusan-grid">
+        <div class="berita-card slide-in">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJElEQVR4nO3WS4iNYRzH8Q8mQyHlkia5LZhEipKkSS7JglgQioUFkZqSWyISITYWyiUWWIgNKZeIpizENK41mllQQjIz5J57T/3V2zgnM8ecs5pfvZ2n9z3v8/0//+f//z0vncqtF7iFTRithPqFIwH/gUbsRxW6FRs8Icb9sQxn8AHNMU73ehcTnFVPzMFhvMRnXEU1KhQRnFVK+RTsQX1sSS22t+Hd/wK31hhsxm38RAP2RXBdignOqgIrcRFfsaRU4KxS+ldoozrBJUv1N5zHXJSXElyF43gT1zHMLNAua9sD/qPycKoTeBd2mcYz2tGbtYWAc9llAn/EMxwIgygqOKu+0XJ38R2PwypH6WBwJdbhOt7jUoBnxbM0vhdWWYcNGNJWcDrihuawvoaYuAk7It178SjuN8bvPIwIaF0EcROvWoNThU7EFtSEp6YJHmJXPOsRK62JFktfJkcxH70wDKvDk9MR2YJTsYjKSP99TE/AxXGQNwesJuAJNBxr4oxNz57jEGZjEBbhJF7jC65gWx7wX7oWaUgTH8RkdM1TQCnI03gbe3sWSzEg3kuZuRGpT71f5h8aGJ8uFyLypmiTBXmizR76DVHJaf82RkoLUh8sjBS1RI+ew/JYWS6Nj/2ri7p4gJ3oV2gQZZgWxvAks7L1GJn5X3dMjVQ/DXiqh0k6SOOwFXeiLuqjh9N+f8JlrMVYRdRgrMLu8OrUap2ST78BDkKgjguKrXoAAAAASUVORK5CYII=" alt="my-computer">
+            <h3>Ruang Komputer</h3>
+            <p>Fasilitas modern untuk pembelajaran teknologi informasi.</p>
+        </div>
+                <div class="berita-card slide-in">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAACT0lEQVR4nMWWz4tOYRTHP8MozOvHYjQhkrKw8GuubIZI2ZEQiZlmgVmrGQt2I4oViykspFB2/gQ7mXJLaYzF1EwsiPKjKEYvr46+t04z9773Ps+M3m+d3nvPc57v973Pc855HmgxVgNLWiH8GPgGPALOAleBrnniPgxcBhbnDS4E9gO3gY9AAxgFjgNL5yh8A7gDdJcFJhK+BXwAvgPnA4QWAU+AtMCeA7ubCfuV2EkYTgADBXYOWFUmHAP74i/iyLM/wMH/IWzYJB6zK8C4e+/Wn5uFTi3JfGEzcLQo3Rsl9gPYUEFkIzBdwvUbOIS+LlsKG+jNWaKGfsvgY8fFkYjT+/+t6IDSnBkCRX7L8EHgpmzQjfn8SN2WJXn+qsIXgBdAHXgGPJSNymdjQ7HCqZLBcAR4ALRp0k/gWkENmu+62982zTUOxJk2E87DReAT0EM59gCfNacIaSbcV5KFdXWvqjigzG3G2WeB7cAOV+A+A58C9wjHfc2dWSmJtExzFrLgldrX0D5t2KXaXxFQimTC+7RfliihsDlfgb0xwr3AK+Jhc0/HCB8DJucgPKUeHSycqC5rJfE2Pga8BDrkWw780kkULLwAeA+cLIlfp5Kr69lwCngnjmBhdEkbK0p/hx7XYOysfQ0M6z1KuAa8BUaoDrurvXFbFCVs2Kar7123h3noULOx2K3OHy3cr0SZ0L5ZH96uL6rp+ZLGJhTbHyO8RdlsWOuI2nXZz45B38vNd0Yx2R9dI45pcVbCevecEXgs01Fnlldufo7naj3+Aods01qCMEjQAAAAAElFTkSuQmCC" alt="drum-set">
+            <h3>Ruang Musik</h3>
+            <p>Dilengkapi dengan berbagai instrumen modern seperti gitar, keyboard, drum, serta peralatan rekaman, lab ini menjadi ruang eksplorasi bagi calon musisi.</p>
+        </div>
+        <div class="berita-card slide-in">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABrElEQVR4nO3Wu2tUQRzF8Y9BIihBEFFElAhWCmm2EgTxD7BNFUQb22CTxsZKbEV8bBGLpAyIIggBJRLS+KgsAlaCYAS1ESyCxEQGzobLmquJ2SuIe+Cww/we33vvzgzDP6YTuBeXceM6hQdYwcN4JXMl1nOdxiN8wxROVmLHcQPLWMA57NgObCBNXqTpVCB1OpoH+IrXOI+dWwHuStEbfEmzQ1uo34+r+Iy3GMfuXxUMJek9PqR4rz/XnvR7h4/pt687aTxvt4iLGNQ7DabnYhiFta5XuJ7/tSkNhFFY6yqrcW0Dz2wDNFPTc6GadACtBMZwPz6Yz/QM07iGURzpWs2jiU0n90JqO33G0rsV1k/qBNux/D7HTcxiCauYC2Q1c7PJKbl3K7XtykvVqg7cGcvhMBLwXMbVA6PdFNgm5vvgVv9Td6u/uIru4BMeYxKXs3c722kkc5PJKbm3e7GPj+ESJrI/yyH/PZeD5Vx9XiY2kdzhXoA30mHcisu4Tj0Hb1a/BZ/NrWOtYS/hTBX8tPJkTbqNJ1VwWTDzlU/TlOe7byBX/gK0HRfWf6gfNKf5fPSiIYcAAAAASUVORK5CYII=" alt="library-building">
+            <h3>Perpustakaan</h3>
+            <p>Ruang baca yang nyaman dengan koleksi buku yang lengkap.</p>
+        </div>
+        <div class="berita-card slide-in">
+          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABoUlEQVR4nO3UP2hUQRDH8Y+onQZEAhFECIE0ohLSKoiNoKYRK4mFhVqrvVoIpjSFyBMLxcLCcHIpUlhYpApG7BQEFSxSiSiK/8HIhjl4PN5dTry9gOQHv2KHefPdnZ23/EfahFFs7Sf0KN5hGd9woR/QIXwKWDrtMXzHwdzgE3hdic1gCbcwmAt8CB8xEOsNWMRzLGAu51AtBOwiZvEFn/EAP2VUOu01PMZN7MQ5zONRLmhq7X5cwg1cjQHbnAuYtBtP4zd6hTt4Euu3OLxagRGMlzzWxY734gPuYQov4vRp/RBX4n6PdyqyFLssOz0KnZROejdg2/EVk/EPH4ic83iPbdWPd+FHDbSdf2MiuvIrHo+Wbser9awU24g3OFO38z1RdLLS7qpTzsm4glN4WamzL3JOV+L3cb1d25ajeCeVc85Gq6s6UjMbRbjn4NTK4Zr8VrzoBjxQ0+KhVcDtNt2KF92AL9cMVDMHuPkXE/2vbpbBO9AIj2dyI1z+9VbU8Q56oKJd/XVwr1Wst3rNh2u6D4/HdB14S8bHo+XEWFv9AR1JvleSBh88AAAAAElFTkSuQmCC" alt="school-cafeteria">
+            <h3>Kantin</h3>
+            <p>Tempat makan yang menyediakan berbagai pilihan makanan sehat.</p>
+        </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Alumni & Testimoni Section -->
+    <section class="testimoni-section" id="alumni">
+        <center><h2>Alumni & Testimoni</h2></center>
+        <div class="jurusan-grid">
+            <div class="berita-card slide-in">
+                <p>"SMK PAB 2 Helvetia telah mempersiapkan saya untuk dunia kerja."</p>
+                <h4>- Alumni 2020</h4>
+            </div>
+            <div class="berita-card slide-in">
+                <p>"Pengalaman belajar yang luar biasa dan fasilitas yang mendukung."</p>
+                <h4>- Alumni 2021</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ekstrakurikuler Section -->
+    <section class="ekstrakurikuler-section" id="ekstrakurikuler">
+        <center><h2>Ekstrakurikuler</h2></centet>
+        <div class="jurusan-grid">
+            <div class="berita-card slide-in">
+
+                <i class="fas fa-music"></i>
+                <h3>Musik</h3>
+                <p>Ekstrakurikuler musik untuk mengembangkan bakat musik Anda.</p>
+            </div>
+            <div class="berita-card slide-in">
+                <i class="fas fa-laptop-code"></i>
+                <h3>Komputer</h3>
+                <p>Ekstrakurikuler komputer untuk mengembangkan kemampuan programming Anda.</p>
+            </div>
+            <div class="berita-card slide-in">
+                <i class="fas fa-calculator"></i>
+                <h3>Matematika</h3>
+                <p>Ekstrakurikuler matematika untuk mengembangkan kemampuan matematika Anda.</p>
+            </div>
+            <div class="berita-card slide-in">
+                <i class="fas fa-language"></i>
+                <h3>Bahasa Inggris </h3>
+                <p>Ekstrakurikuler bahasa inggris untuk mengembangkan kemampuan bahasa inggris Anda.</p>
+            </div>
+            <div class="berita-card slide-in">
+                <i class="fas fa-child"></i>
+                <h3>Nari</h3>
+                <p>Ekstrakurikuler nari untuk mengembangkan bakat menari Anda.</p>
+            </div>
+        </div>
+    </section>
+
+<!-- Chat Icon -->
+<a href="index1.html" class="chat-icon" id="chatLink">
+    <i class="fas fa-comments"></i>
+</a>
+
+    <!-- Kontak & Lokasi Section -->
+    <section class="kontak-section" id="kontak">
+        <centet><h2>Kontak & Lokasi</h2></center>
+        <form class="kontak-form">
+            <input type="text" placeholder="Nama" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Pesan" required></textarea>
+            <button type="submit">Kirim Pesan</button>
+        </form>
+    </section>
+
+<section class="maps-section" id="maps">
+    <iframe src="https://maps.google.com/maps?width=600&amp;height=400&amp;hl=en&amp;q=SMK PAB 2 Helvetia&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed" allowfullscreen="" loading="lazy"></iframe>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+                    <div class="logo">
+               <img src="https://i.top4top.io/p_3332wr9k60.png" alt="SMK PAB 2 Helvetia Logo">
+            </div><div class="footer-section">
+        
+            <h3>Tentang Sekolah</h3>
+            <ul>
+                <li><a href="#profil">Profil Sekolah</a></li>
+                <li><a href="#jurusan">Jurusan</a></li>
+                <li><a href="#fasilitas">Fasilitas</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Kontak</h3>
+            <ul>
+                <li><a href="/cdn-cgi/l/email-protection#4e272028210e3d23253e2f2c7c262b22382b3a272f603d2d2660272a">Email: <span class="__cf_email__" data-cfemail="1970777f76596a747269787b2b717c756f7c6d7078376a7a7137707d">smkpab2helvetia@gmail.com</span></a></li>
+                <li><a href="tel:+6281234567890">Telepon: +62 812-3456-7890</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Sosial Media</h3>
+            <ul class="social-links">
+                <li><a href="https://www.facebook.com/smkpab2official" target="_blank"><i class="fab fa-facebook"></i></a></li>
+                <li><a href="https://x.com/smks_pab2" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="https://www.instagram.com/smkpab2official" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="https://youtube.com/@smkpab2helvetia593?si=ofHqUzD0hvxN-KlM" target="_blank"><i class="fab fa-youtube"></i></a></li>
+            </ul>
+        </div>
+         <footer class="footer">        <center><p>&copy; 2023 SMK PAB 2 Helvetia. All rights reserved.</p></center>
+       <center><p>From:Four Men</p></center>
+    </div>
+</footer>
+
+
+<!-- Add AOS Library -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
+
+// Toggle sidebar
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const menuIcon = document.querySelector('.menu-icon');
+
+    sidebar.classList.toggle('active');
+    overlay.classList.toggle('show');
+
+    // Tambahkan atau hapus class animasi
+    if (sidebar.classList.contains('active')) {
+        menuIcon.classList.remove('rotate-close');
+        menuIcon.classList.add('rotate-open');
+    } else {
+        menuIcon.classList.remove('rotate-open');
+        menuIcon.classList.add('rotate-close');
+    }
+}
+
+// Carousel functionality untuk Aktivitas Sekolah
+let currentSlideAktivitas = 0;
+const aktivitasCarousel = document.getElementById('aktivitasCarousel');
+const aktivitasDots = document.querySelectorAll('#aktivitasDots .dot');
+const totalSlidesAktivitas = document.querySelectorAll('#aktivitasCarousel .gallery-item').length;
+
+function updateAktivitasCarousel() {
+    const slideWidth = 100; // 100% width per slide
+    aktivitasCarousel.style.transform = `translateX(-${currentSlideAktivitas * slideWidth}%)`;
+    
+    // Update active dot
+    aktivitasDots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlideAktivitas);
+    });
+}
+
+function nextSlideAktivitas() {
+    currentSlideAktivitas = (currentSlideAktivitas + 1) % totalSlidesAktivitas;
+    updateAktivitasCarousel();
+}
+
+function prevSlideAktivitas() {
+    currentSlideAktivitas = (currentSlideAktivitas - 1 + totalSlidesAktivitas) % totalSlidesAktivitas;
+    updateAktivitasCarousel();
+}
+
+function goToSlideAktivitas(slideIndex) {
+    currentSlideAktivitas = slideIndex;
+    updateAktivitasCarousel();
+}
+
+// Tambahkan initialization di dalam DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    // ... kode yang sudah ada ...
+
+    // Initialize aktivitas carousel
+    updateAktivitasCarousel();
+
+    // Auto-slide every 5 seconds untuk aktivitas
+    let autoSlideAktivitas = setInterval(nextSlideAktivitas, 5000);
+
+    // Stop auto-slide when hovering untuk aktivitas
+    document.querySelector('#aktivitas-sekolah .gallery-container').addEventListener('mouseenter', () => {
+        clearInterval(autoSlideAktivitas);
+    });
+
+    document.querySelector('#aktivitas-sekolah .gallery-container').addEventListener('mouseleave', () => {
+        autoSlideAktivitas = setInterval(nextSlideAktivitas, 5000);
+    });
+});
+
+// Carousel functionality
+let currentSlide = 0;
+const carousel = document.getElementById('galleryCarousel');
+const dots = document.querySelectorAll('.dot');
+const totalSlides = document.querySelectorAll('.gallery-item').length;
+
+function updateCarousel() {
+    const slideWidth = 100; // 100% width per slide
+    carousel.style.transform = `translateX(-${currentSlide * slideWidth}%)`;
+    
+    // Update active dot
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+    });
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    updateCarousel();
+}
+
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    updateCarousel();
+}
+
+function goToSlide(slideIndex) {
+    currentSlide = slideIndex;
+    updateCarousel();
+}
+
+// Fungsi untuk menampilkan halaman guru
+function showGuruPage() {
+    // Sembunyikan semua section utama
+    const mainSections = [
+        'home', 'profil', 'statistik', 'struktur-sekolah', 'jurusan', 'galeri',
+        'company-partner', 'berita', 'fasilitas-sekolah', 'alumni', 'ekstrakurikuler', 
+        'kontak', 'maps','aktivitas-sekolah' // Tambahkan maps untuk menyembunyikan maps-section
+    ];
+    mainSections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) section.style.display = 'none';
+    });
+
+    // Tampilkan halaman guru
+    const guruSection = document.getElementById('guru-content');
+    if (guruSection) guruSection.style.display = 'block';
+
+    // Tutup sidebar jika terbuka
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    if (sidebar && sidebar.classList.contains('active')) {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('show');
+    }
+
+    // Scroll ke atas halaman
+    window.scrollTo(0, 0);
+}
+
+// Fungsi untuk kembali ke halaman utama
+function showMainPage() {
+    // Tampilkan semua section utama
+    const mainSections = [
+        'home', 'profil', 'statistik', 'struktur-sekolah', 'jurusan', 'galeri',
+        'company-partner', 'berita', 'fasilitas-sekolah', 'alumni', 'ekstrakurikuler', 
+        'kontak', 'maps','aktivitas-sekolah',
+    ];
+    mainSections.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) section.style.display = 'block';
+    });
+
+    // Sembunyikan halaman guru
+    const guruSection = document.getElementById('guru-content');
+    if (guruSection) guruSection.style.display = 'none';
+
+    // Scroll ke atas halaman
+    window.scrollTo(0, 0);
+}
+
+// Fungsi untuk mencari guru
+function searchGuru() {
+    const input = document.getElementById('searchGuru');
+    const filter = input.value.toLowerCase();
+    const guruItems = document.querySelectorAll('.guru-item');
+
+    guruItems.forEach(item => {
+        const name = item.querySelector('h3').textContent.toLowerCase();
+        if (name.includes(filter)) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
         }
+    });
+}
 
-        function login() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const correctPassword = "12052024";
+// Event listener saat dokumen selesai dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true
+    });
 
-            if (username && password === correctPassword) {
-                localStorage.setItem('loggedIn', 'true');
-                document.getElementById('login-page').style.display = 'none';
-                document.getElementById('main-page').style.display = 'block';
-                initChat();
-            } else {
-                alert("Nama atau tanggal salah, sayang. Ingat tanggal jadian kita ya!");
-            }
+    // Initialize first dot as active for carousel
+    updateCarousel();
+
+    // Auto-slide every 5 seconds
+    let autoSlide = setInterval(nextSlide, 5000);
+
+    // Stop auto-slide when hovering
+    document.querySelector('.gallery-container').addEventListener('mouseenter', () => {
+        clearInterval(autoSlide);
+    });
+
+    document.querySelector('.gallery-container').addEventListener('mouseleave', () => {
+        autoSlide = setInterval(nextSlide, 5000);
+    });
+
+    // Inisialisasi daftar guru
+    const guruList = document.querySelector('.guru-list');
+    const guruData = [
+        { name: "Ahmad Wijaya, S.E", image: "https://a.top4top.io/p_33335lay50.png" },
+        { name: "Dra. Sumbarniati", image: "https://b.top4top.io/p_33337vlgm1.png" },
+        { name: "Ummi Saidah, S. Pd, M.Pd", image: "https://c.top4top.io/p_3333tc2v92.png" },
+        { name: "Suratik. W", image: "https://d.top4top.io/p_3333aerty3.png" },
+        { name: "Desi Rakhma Handayani, SE", image: "https://e.top4top.io/p_3333f84694.png" },
+        { name: "M. Rizki Janua, S. kom", image: "https://f.top4top.io/p_333342ecn5.png" },
+        { name: "Khairunnia'am, S.Pd", image: "https://g.top4top.io/p_3333zy17z6.png" },
+        { name: "Linda Sari, S.Pd", image: "https://h.top4top.io/p_3333rjr157.png" },
+        { name: "Sri Endang Damayanti, S.Pd", image: "https://i.top4top.io/p_3333po2xk8.png" },
+        { name: "Drs. NK. Simbolon", image: "https://j.top4top.io/p_3333fgua29.png" },
+        { name: "Indah Chairunnisa, S.Pd", image: "https://d.top4top.io/p_3333sdgru0.png" },
+        { name: "Elvi Mahalli, S.Pd", image: "https://e.top4top.io/p_3333egd8y1.png" },
+        { name: "Tri Indra Kusuma, S.Kom", image: "https://f.top4top.io/p_3333itish2.png" },
+        { name: "Putri Ummairoh, SE", image: "https://g.top4top.io/p_333384iy23.png" },
+        { name: "Junaidi", image: "https://h.top4top.io/p_3333armk34.png" },
+        { name: "Paimin, S.PDI", image: "https://i.top4top.io/p_3333aaibe5.png" },
+        { name: "Legiso, S.Pd", image: "https://j.top4top.io/p_3333ueiqn6.png" },
+        { name: "Dorriana Siregar, S.Pd", image: "https://k.top4top.io/p_3333958te7.png" },
+        { name: "Drs. Rusliman", image: "https://l.top4top.io/p_3333ljep48.png" },
+        { name: "Ismail, SE", image: "https://a.top4top.io/p_3333j7m639.png" },
+        { name: "Dra. Kartini Tanjung", image: "https://e.top4top.io/p_33337i8up0.png" },
+        { name: "Supriadi, SE", image: "https://f.top4top.io/p_3333cx8sb1.png" },
+        { name: "Vidya Andriani. D, S.Ag", image: "https://g.top4top.io/p_33334r2et2.png" },
+        { name: "Anita M.Nur, S.Pd", image: "https://h.top4top.io/p_3333swz4f3.png" },
+        { name: "M. Darwis Nasution, BASc", image: "https://i.top4top.io/p_3333fhi8q4.png" },
+        { name: "R. Puji Astuti, SE", image: "https://k.top4top.io/p_33339ynly5.png" },
+        { name: "Mila Eprida, S. Pd", image: "https://l.top4top.io/p_3333gl0yy6.png" },
+        { name: "Sri Maya HK, S. Pd", image: "https://a.top4top.io/p_3333onx3q7.png" },
+        { name: "Sulis Mawarni, S.Pdi", image: "https://b.top4top.io/p_3333k95w48.png" },
+        { name: "Nurasiah Nasution, S. Pd", image: "https://c.top4top.io/p_3333yy6uf9.png" },
+        { name: "Zaini Hariyani, S. Pd", image: "https://a.top4top.io/p_33333v88j0.png" },
+        { name: "Wira Wardani, S.Pd", image: "https://b.top4top.io/p_3333frmqx1.png" },
+        { name: "Sajidah Khatimah, S. Pd", image: "https://c.top4top.io/p_3333fyqy22.png" },
+        { name: "Rafika Sari Hakim, SS", image: "https://d.top4top.io/p_3333iifjj3.png" },
+        { name: "Afrida Fitri yani, Sipahutar, MA", image: "https://e.top4top.io/p_333381l7q4.png" },
+        { name: "Hevlie Winda Nazry, M. Si", image: "https://f.top4top.io/p_3333rqmfe5.png" },
+        { name: "Afrida Hanum, S. Pd", image: "https://g.top4top.io/p_3333qggj56.png" },
+        { name: "Elisa Oktaviani, S.kom", image: "https://h.top4top.io/p_3333tq3yj7.png" },
+        { name: "Mutia Nur Syahfitri, S.Pd, M.Si", image: "https://i.top4top.io/p_3333s5wgt8.png" },
+        { name: "KiKi Fransella, M.Pd", image: "https://j.top4top.io/p_33332gun59.png" },
+        { name: "Zulita Gustika Sari, S.kom", image: "https://f.top4top.io/p_3333w7yh10.png" },
+        { name: "Ilman Nurmahali, SE", image: "https://g.top4top.io/p_33337n4h01.png" },
+        { name: "Muhammad Elvan, S.Kom", image: "https://h.top4top.io/p_3333771px2.png" },
+        { name: "Maria Sari, S. Kom", image: "https://i.top4top.io/p_3333o1p7i3.png" },
+        { name: "Nazzia Fiddarain, S.Kom", image: "https://j.top4top.io/p_3333ydegd4.png" }
+    ];
+
+    guruData.forEach(guru => {
+        const guruItem = document.createElement('div');
+        guruItem.classList.add('guru-item');
+        guruItem.innerHTML = `
+            <img src="${guru.image}" alt="${guru.name}">
+            <h3>${guru.name}</h3>
+        `;
+        guruList.appendChild(guruItem);
+    });
+
+    // Pastikan halaman guru disembunyikan saat pertama kali load
+    document.getElementById('guru-content').style.display = 'none';
+});
+
+// Header scroll effect dan animasi slide-in
+window.addEventListener('scroll', () => {
+    const header = document.querySelector('.header');
+    if (window.scrollY > 50) {
+        header.style.background = 'rgba(255, 255, 255, 0.8)';
+    } else {
+        header.style.background = 'rgba(255, 255, 255, 0.8)';
+    }
+
+    // Animasi Slide-in
+    const slideInItems = document.querySelectorAll('.slide-in');
+    slideInItems.forEach((item) => {
+        const rect = item.getBoundingClientRect();
+        if (rect.top < window.innerHeight) {
+            item.classList.add('visible');
         }
+    });
+});
 
-        function logout() {
-            localStorage.removeItem('loggedIn');
-            document.getElementById('main-page').style.display = 'none';
-            document.getElementById('login-page').style.display = 'flex';
-        }
-
-        function togglePassword() {
-            const passwordInput = document.getElementById('password');
-            const eyeOpen = document.getElementById('eyeOpen');
-            const eyeClosed = document.getElementById('eyeClosed');
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                eyeOpen.style.display = 'none';
-                eyeClosed.style.display = 'block';
-            } else {
-                passwordInput.type = 'password';
-                eyeOpen.style.display = 'block';
-                eyeClosed.style.display = 'none';
-            }
-        }
-
-        function initChat() {
-            const heartsContainer = document.getElementById('hearts-container');
-            const heartCount = 20;
-            for (let i = 0; i < heartCount; i++) {
-                const heart = document.createElement('div');
-                heart.classList.add('heart');
-                heart.style.left = `${Math.random() * 100}%`;
-                heart.style.animationDelay = `${Math.random() * 5}s`;
-                heart.style.opacity = Math.random() * 0.8 + 0.2;
-                heartsContainer.appendChild(heart);
-            }
-
-            window.addEventListener('scroll', function() {
-                const parallaxBg = document.querySelector('.parallax-bg');
-                const scrollPosition = window.pageYOffset;
-                parallaxBg.style.transform = `translateY(${scrollPosition * 0.5}px)`;
-                const chatContainer = document.getElementById('chat-container');
-                const chatSection = document.querySelector('.chat-section');
-                const chatSectionTop = chatSection.offsetTop;
-                if (scrollPosition > (chatSectionTop - window.innerHeight / 1.5)) {
-                    chatContainer.classList.add('chat-visible');
-                }
-            });
-
-            document.querySelector('.scroll-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                document.getElementById('chat').scrollIntoView({ behavior: 'smooth' });
-            });
-
-            const chatMessages = document.getElementById('chat-messages');
-            const userInput = document.getElementById('user-input');
-            const sendBtn = document.getElementById('send-btn');
-            const photoUpload = document.getElementById('photo-upload');
-            let chatHistory = [];
-
-            function addMessage(text, isUser, imageSrc = null) {
-                const messageDiv = document.createElement('div');
-                messageDiv.classList.add('message');
-                messageDiv.classList.add(isUser ? 'user' : 'ai');
-                if (imageSrc) {
-                    const img = document.createElement('img');
-                    img.src = imageSrc;
-                    messageDiv.appendChild(img);
-                }
-                if (text) {
-                    messageDiv.textContent = text;
-                }
-                chatMessages.appendChild(messageDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            function showLoading() {
-                const loadingDiv = document.createElement('div');
-                loadingDiv.classList.add('loading');
-                loadingDiv.id = 'loading-indicator';
-                for (let i = 0; i < 3; i++) {
-                    loadingDiv.appendChild(document.createElement('div'));
-                }
-                chatMessages.appendChild(loadingDiv);
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-
-            function hideLoading() {
-                const loadingIndicator = document.getElementById('loading-indicator');
-                if (loadingIndicator) loadingIndicator.remove();
-            }
-
-            async function getAIResponse(userMessage, imageData = null) {
-                showLoading();
-                chatHistory.push({ role: "user", content: userMessage });
-                const limitedHistory = chatHistory.slice(-5);
-
-                let messages = [
-                    {
-                        role: "system",
-                        content: "Namamu adalah AI Ashrn, kekasih virtual yang romantis dan perhatian. Responlah dengan manis, penuh cinta, dan dukung pasanganmu. Jika ada gambar, deskripsikan dan beri komentar romantis. Gunakan emoji secukupnya."
-                    },
-                    ...limitedHistory
-                ];
-
-                if (imageData) {
-                    messages.push({
-                        role: "user",
-                        content: [
-                            { type: "text", text: userMessage || "Lihat gambar ini, sayang!" },
-                            { type: "image_url", image_url: { url: imageData } }
-                        ]
-                    });
-                } else {
-                    messages.push({ role: "user", content: userMessage });
-                }
-
-                let requestBody = {
-                    model: "google/gemini-2.0-flash-lite-preview-02-05:free",
-                    messages: messages,
-                    temperature: 0.7,
-                    max_tokens: 300,
-                    top_p: 0.95
-                };
-
-                try {
-                    const response = await fetch("/api/chat", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(requestBody)
-                    });
-
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        throw new Error(`HTTP Error ${response.status}: ${errorText}`);
-                    }
-
-                    const data = await response.json();
-                    hideLoading();
-
-                    if (data.choices && data.choices[0] && data.choices[0].message) {
-                        const aiResponse = data.choices[0].message.content;
-                        addMessage(aiResponse, false);
-                        chatHistory.push({ role: "assistant", content: aiResponse });
-                    } else if (data.error) {
-                        addMessage(`Maaf, sayang, ada masalah: ${data.error.message || 'Unknown API error'}`, false);
-                    } else {
-                        addMessage("Aku bingung tadi, sayang. Tidak ada respons dari API!", false);
-                    }
-                } catch (error) {
-                    hideLoading();
-                    addMessage(`Maaf ya, sayang, ada kesalahan: ${error.message}. Coba lagi ya!`, false);
-                }
-            }
-
-            sendBtn.addEventListener('click', async function() {
-                const message = userInput.value.trim();
-                if (message) {
-                    addMessage(message, true);
-                    getAIResponse(message);
-                    userInput.value = '';
-                }
-            });
-
-            userInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && userInput.value.trim()) {
-                    sendBtn.click();
-                }
-            });
-
-            photoUpload.addEventListener('change', function() {
-                const file = photoUpload.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const imageData = e.target.result;
-                        addMessage(null, true, imageData);
-                        getAIResponse("Lihat gambar ini, sayang!", imageData);
-                    };
-                    reader.readAsDataURL(file);
-                    photoUpload.value = '';
-                }
-            });
-        }
-    </script>
+// Smooth Transition for Chat Link
+document.getElementById('chatLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    const href = this.getAttribute('href');
+    document.body.classList.add('fade-out');
+    setTimeout(() => {
+        window.location.href = href;
+    }, 500);
+});
+</script>
 </body>
 </html>
